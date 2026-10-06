@@ -6,6 +6,17 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Abriendo tu partida — Yoin It</title>
 <meta name="description" content="Abre tu partida en la app de Yoin It.">
+<!--OG-START-->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Yoin It">
+<meta property="og:locale" content="es_VE">
+<meta property="og:title" content="Te invitaron a una partida en Yoin It">
+<meta property="og:description" content="Ábrela en la app de Yoin It para ver los detalles y unirte.">
+<meta property="og:image" content="https://yoinit.app/assets/images/og-yoinit-1200x630.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<!--OG-END-->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
@@ -21,6 +32,12 @@
   .partida-fallback .partida-text { margin-bottom: 18px; }
   .partida-fallback .secondary-button { width: 100%; margin-bottom: 22px; }
   .partida-fallback .store-buttons { justify-content: center; margin-top: 0; }
+  .partida-summary { margin: 0 0 24px; padding: 16px; border: 1px solid var(--yo-line); border-radius: 16px; background: var(--yo-raised); text-align: left; }
+  .partida-summary p { margin: 0; }
+  .partida-summary-when { font-family: Archivo, sans-serif; font-weight: 800; font-size: 22px; line-height: 1.2; letter-spacing: -.02em; color: var(--yo-text); }
+  .partida-summary-meta { margin-top: 8px !important; font-size: 15px; line-height: 1.5; color: var(--yo-secondary); }
+  .partida-summary-place { margin-top: 2px !important; font-size: 15px; line-height: 1.5; color: var(--yo-secondary); }
+  .partida-summary-slots { margin-top: 10px !important; font-size: 15px; font-weight: 600; line-height: 1.5; color: var(--yo-text); }
   [hidden] { display: none !important; }
 </style>
 </head>
@@ -39,6 +56,8 @@
     <p class="partida-text" data-state="no-id" hidden>
       Este link no trae los datos completos de la partida. Ábrelo desde la invitación original o desde la app.
     </p>
+
+    <!--MATCH-SUMMARY-->
 
     <button type="button" class="primary-button partida-cta" data-action="open-app">Abrir en la app</button>
 
