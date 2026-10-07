@@ -84,7 +84,7 @@ export function ogTags(s, pageUrl, origin) {
   const desc = escapeHtml(ogDescription(s));
   return [
     '<meta property="og:type" content="website">',
-    '<meta property="og:site_name" content="Yoin It">',
+    '<meta property="og:site_name" content="YoinIt">',
     '<meta property="og:locale" content="es_VE">',
     `<meta property="og:title" content="${title}">`,
     `<meta property="og:description" content="${desc}">`,
@@ -126,7 +126,7 @@ const SUMMARY_MARK = '<!--MATCH-SUMMARY-->';
 // Inyecta título, descripción, etiquetas OG y bloque de resumen en la landing. Si falta
 // algún marcador devuelve el HTML tal cual en esa parte (nunca lanza).
 export function applyPreview(html, summary, { pageUrl, origin }) {
-  const title = escapeHtml(`${ogTitle(summary)} — Yoin It`);
+  const title = escapeHtml(`${ogTitle(summary)} — YoinIt`);
   const desc = escapeHtml(ogDescription(summary));
   let out = html
     .replace(/<title>[\s\S]*?<\/title>/, () => `<title>${title}</title>`)

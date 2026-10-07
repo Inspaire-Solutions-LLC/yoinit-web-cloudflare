@@ -45,7 +45,7 @@ test('applyPreview inyecta og:title, og:description, og:image, og:url y el resum
   assert.match(html, /<meta property="og:description" content="Pádel · Nivel 3–3,5 · Club Altamira">/);
   assert.match(html, /<meta property="og:image" content="https:\/\/yoinit\.app\/assets\/images\/og-yoinit-1200x630\.png">/);
   assert.match(html, /<meta property="og:url" content="https:\/\/yoinit\.app\/partidas\/abc">/);
-  assert.match(html, /<title>Falta 1 · jue 19:00 — Yoin It<\/title>/);
+  assert.match(html, /<title>Falta 1 · jue 19:00 — YoinIt<\/title>/);
   assert.match(html, /class="partida-summary-when">jue 8 oct · 19:00</);
   assert.match(html, /1 plaza libre de 4/);
   assert.match(html, /Pádel · Nivel 3–3,5 · Competitivo/);
