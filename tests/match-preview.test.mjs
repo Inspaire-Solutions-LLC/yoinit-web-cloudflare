@@ -74,3 +74,33 @@ test('parseSummary descarta formas invalidas', () => {
   assert.equal(parseSummary({ ...raw, status: 'cancelled' }), null);
   assert.equal(parseSummary({ ...raw, total_slots: '4' }), null);
 });
+
+// APP-SHARE-009: americanas
+const am = { ...raw, format: 'americana', total_slots: 12, free_slots: 3 };
+
+test('americana: titulo con jugadores en lugar de "Falta N"; descripcion igual', () => {
+  const s = parseSummary(am);
+  assert.equal(s.format, 'americana');
+  assert.equal(ogTitle(s), 'Americana · 12 jugadores · jue 19:00');
+  assert.equal(ogDescription(s), 'Pádel · Nivel 3–3,5 · Club Altamira');
+  assert.equal(ogTitle(parseSummary({ ...am, free_slots: 0, status: 'full' })), 'Americana completa · jue 19:00');
+  assert.equal(ogTitle(parseSummary({ ...am, status: 'completed' })), 'Americana terminada · jue 19:00');
+});
+
+test('americana: etiquetas OG y bloque de resumen', () => {
+  const html = applyPreview(landing, parseSummary(am), ctx);
+  assert.match(html, /<meta property="og:title" content="Americana · 12 jugadores · jue 19:00">/);
+  assert.match(html, /Americana · Pádel · Nivel 3–3,5 · Competitivo/);
+  assert.match(html, /12 jugadores · 3 cupos libres/);
+  assert.doesNotMatch(html, /Faltan?\s/);
+  assert.doesNotMatch(ogTitle(parseSummary(am)), /!/);
+});
+
+test('sin format (funcion sin desplegar) o format desconocido: partida normal', () => {
+  for (const f of [undefined, null, 'standard', 'otra']) {
+    const s = parseSummary({ ...raw, format: f });
+    assert.equal(s.format, 'standard');
+    assert.equal(ogTitle(s), 'Falta 1 · jue 19:00');
+  }
+  assert.match(applyPreview(landing, parseSummary(raw), ctx), /1 plaza libre de 4/);
+});

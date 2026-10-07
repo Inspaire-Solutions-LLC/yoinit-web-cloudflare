@@ -35,6 +35,8 @@ export function parseSummary(raw) {
     zone: str(raw.zone),
     levelMin: num(raw.level_min),
     levelMax: num(raw.level_max),
+    // APP-SHARE-009: si falta (función sin desplegar) o trae algo raro, partida normal.
+    format: raw.format === 'americana' ? 'americana' : 'standard',
     matchType: raw.match_type === 'competitive' ? 'competitive' : 'friendly',
     totalSlots: total,
     freeSlots: free,
@@ -70,9 +72,16 @@ function slotsHeadline(s) {
   return s.freeSlots === 1 ? 'Falta 1' : `Faltan ${s.freeSlots}`;
 }
 
+function americanaHeadline(s) {
+  if (s.status === 'completed') return 'Americana terminada';
+  if (s.freeSlots <= 0) return 'Americana completa';
+  return `Americana · ${s.totalSlots} jugadores`;
+}
+
 export function ogTitle(s) {
   const p = venueParts(s.startsAt);
-  return `${slotsHeadline(s)} · ${p.day} ${p.time}`;
+  const head = s.format === 'americana' ? americanaHeadline(s) : slotsHeadline(s);
+  return `${head} · ${p.day} ${p.time}`;
 }
 
 export function ogDescription(s) {
@@ -103,13 +112,18 @@ export function summaryBlock(s) {
   const when = `${p.day} ${p.dayOfMonth} ${p.month} · ${p.time}`;
   const place = [s.venueName, s.zone].filter(Boolean).join(' · ');
   const kind = s.matchType === 'competitive' ? 'Competitivo' : 'Amistoso';
-  const meta = [s.sport, levelLabel(s), kind].filter(Boolean).join(' · ');
+  const am = s.format === 'americana';
+  const meta = [am ? 'Americana' : null, s.sport, levelLabel(s), kind].filter(Boolean).join(' · ');
   const slots =
     s.status === 'completed'
-      ? 'Esta partida ya terminó.'
+      ? am ? 'Esta americana ya terminó.' : 'Esta partida ya terminó.'
       : s.freeSlots <= 0
-        ? `Completa: ${s.totalSlots} de ${s.totalSlots} plazas ocupadas.`
-        : `${s.freeSlots} ${s.freeSlots === 1 ? 'plaza libre' : 'plazas libres'} de ${s.totalSlots}`;
+        ? am
+          ? `Completa: ${s.totalSlots} de ${s.totalSlots} cupos ocupados.`
+          : `Completa: ${s.totalSlots} de ${s.totalSlots} plazas ocupadas.`
+        : am
+          ? `${s.totalSlots} jugadores · ${s.freeSlots} ${s.freeSlots === 1 ? 'cupo libre' : 'cupos libres'}`
+          : `${s.freeSlots} ${s.freeSlots === 1 ? 'plaza libre' : 'plazas libres'} de ${s.totalSlots}`;
   return [
     '<div class="partida-summary">',
     `  <p class="partida-summary-when">${escapeHtml(when)}</p>`,
