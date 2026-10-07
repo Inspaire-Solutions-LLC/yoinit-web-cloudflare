@@ -1,2 +1,4 @@
 # /partidas/:id lo sirve functions/partidas/[id].js (APP-SHARE-003), que a su vez devuelve partidas.html.
 # Si se quitan las Functions, restituir aqui: /partidas/* /partidas 200
+# /r/:codigo (APP-SHARE-004) es una landing estatica: r.html.
+/r/*  /r  200

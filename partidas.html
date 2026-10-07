@@ -86,7 +86,10 @@
   </div>
 </main>
 
-<script>
+<script type="module">
+import { siteConfig } from '/assets/js/config.js';
+import { androidIntentUrl, cleanCode, isAndroid, playStoreUrl } from '/assets/js/deferred-link.js';
+
 (function () {
   var FALLBACK_DELAY_MS = 1800;
 
@@ -105,14 +108,33 @@
   var hasId = !!matchId;
   var deepLink = 'com.yoinit.app://open/partidas/' + encodeURIComponent(matchId);
 
+  // Enlace diferido (APP-SHARE-004): la ficha de Play lleva la partida y el codigo de
+  // invitacion (?ref= del enlace compartido) para que la app los recuerde tras instalar.
+  var refCode = cleanCode(new URLSearchParams(window.location.search).get('ref'));
+  var playUrl = playStoreUrl(siteConfig.downloads.android, { matchId: matchId, code: refCode });
+  var android = isAndroid(navigator.userAgent);
+
   function openApp() {
     if (!hasId) return;
-    window.location.href = deepLink;
+    // Android: intent de Chrome. Si la app no esta, va a la ficha de Play (si ya existe)
+    // en vez de no hacer nada. Los Universal Links de iOS no necesitan esto.
+    window.location.href = android
+      ? androidIntentUrl('/partidas/' + encodeURIComponent(matchId), playUrl)
+      : deepLink;
   }
 
   var openButtons = document.querySelectorAll('[data-action="open-app"]');
   for (var i = 0; i < openButtons.length; i++) {
     openButtons[i].addEventListener('click', openApp);
+  }
+
+  var androidBadge = document.querySelector('[data-store="android"]');
+  if (androidBadge && playUrl) {
+    androidBadge.href = playUrl;
+    androidBadge.removeAttribute('aria-disabled');
+    androidBadge.setAttribute('aria-label', 'Descargar en Google Play');
+    var pending = androidBadge.querySelector('.store-pending');
+    if (pending) pending.hidden = true;
   }
 
   var withIdText = document.querySelector('[data-state="with-id"]');
@@ -131,11 +153,12 @@
     return;
   }
 
-  // Intento automático best-effort: muchos navegadores móviles solo
+  // Intento automatico best-effort: muchos navegadores moviles solo
   // permiten abrir un esquema custom con un gesto real del usuario,
-  // así que esto puede no disparar nada y el botón manual sigue siendo
-  // la vía principal.
-  setTimeout(openApp, 50);
+  // asi que esto puede no disparar nada y el boton manual sigue siendo
+  // la via principal. Se usa siempre el esquema propio (sin intent): un
+  // intent con fallback mandaria a Play sin que el usuario toque nada.
+  setTimeout(function () { window.location.href = deepLink; }, 50);
 
   setTimeout(function () {
     if (document.visibilityState !== 'hidden' && fallback) {
