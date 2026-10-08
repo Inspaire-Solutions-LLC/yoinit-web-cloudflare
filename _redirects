@@ -2,3 +2,5 @@
 # Si se quitan las Functions, restituir aqui: /partidas/* /partidas 200
 # /r/:codigo (APP-SHARE-004) es una landing estatica: r.html.
 /r/*  /r  200
+# /grupos/:codigo (APP-GROUP-008): landing estatica grupos.html, sin datos del grupo.
+/grupos/*  /grupos  200

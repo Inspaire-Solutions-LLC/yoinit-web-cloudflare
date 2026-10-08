@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { androidIntentUrl, cleanCode, cleanMatchId, isAndroid, playStoreUrl, referrerValue } from '../assets/js/deferred-link.js';
+import { androidIntentUrl, cleanCode, cleanGroupCode, cleanMatchId, isAndroid, playStoreUrl, referrerValue } from '../assets/js/deferred-link.js';
 
 // APP-SHARE-004: referrer de Play, intent de Chrome y assetlinks.json. node --test tests/
 const ID = '123e4567-e89b-12d3-a456-426614174000';
@@ -73,4 +73,45 @@ test('assetlinks.json: paquete, relacion y las dos huellas del brief', () => {
 test('_headers sirve assetlinks.json como application/json', () => {
   const headers = readFileSync(new URL('../_headers', import.meta.url), 'utf8');
   assert.match(headers, /\/\.well-known\/assetlinks\.json\n\s+Content-Type: application\/json/);
+});
+
+// APP-GROUP-008: enlaces de grupo.
+test('referrer de grupo con codigo valido', () => {
+  assert.equal(referrerValue({ groupCode: 'k7mp4rxw' }), 'link=/grupos/K7MP4RXW');
+  const url = new URL(playStoreUrl(STORE, { groupCode: 'K7MP4RXW' }));
+  assert.equal(url.searchParams.get('referrer'), 'link=/grupos/K7MP4RXW');
+  assert.ok(url.search.includes('referrer=link%3D%2Fgrupos%2FK7MP4RXW'));
+});
+
+test('codigo de grupo: solo 8 caracteres A-Z 2-9 sin 0 O 1 I', () => {
+  for (const bad of ['K7MP4RX', 'K7MP4RXWA', 'K7MP4RX0', 'K7MP4RXO', 'K7MP4RX1', 'K7MP4RXI', 'K7MP-4RX', '../home', '<script>', '', undefined, 12345678]) {
+    assert.equal(cleanGroupCode(bad), '', String(bad));
+    assert.equal(referrerValue({ groupCode: bad }), '', String(bad));
+  }
+});
+
+test('intent de Chrome para grupo', () => {
+  assert.equal(
+    androidIntentUrl('/grupos/K7MP4RXW', STORE),
+    `intent://open/grupos/K7MP4RXW#Intent;scheme=com.yoinit.app;package=com.yoinit.app;S.browser_fallback_url=${encodeURIComponent(STORE)};end`,
+  );
+});
+
+test('landing de grupo: noindex, copy generico, redirect y sin hex sueltos', () => {
+  const html = readFileSync(new URL('../grupos.html', import.meta.url), 'utf8');
+  assert.match(html, /<meta name="robots" content="noindex, nofollow">/);
+  assert.match(html, /Te invitaron a un grupo en YoinIt/);
+  assert.match(html, /Abrir en la app/);
+  assert.match(html, /store-badge/);
+  // Sin hex fuera de los logos SVG de las tiendas (los colores salen de los tokens --yo-*).
+  assert.doesNotMatch(html.replace(/<svg[\s\S]*?<\/svg>/g, ''), /#[0-9a-fA-F]{3,8}\b/);
+  // Sin datos privados del grupo ni endpoint inventado.
+  assert.doesNotMatch(html, /fetch\(|supabase/i);
+  const redirects = readFileSync(new URL('../_redirects', import.meta.url), 'utf8');
+  assert.match(redirects, /^\/grupos\/\*\s+\/grupos\s+200$/m);
+});
+
+test('assetlinks.json es por dominio y app: /grupos/ no requiere cambio', () => {
+  const raw = readFileSync(new URL('../.well-known/assetlinks.json', import.meta.url), 'utf8');
+  assert.ok(!raw.includes('grupos'));
 });
