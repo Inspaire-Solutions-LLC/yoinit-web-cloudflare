@@ -65,3 +65,63 @@ export function androidIntentUrl(path, fallbackUrl) {
 export function isAndroid(userAgent) {
   return /\bAndroid\b/i.test(userAgent || '');
 }
+
+// --- iOS (APP-APPLE-003 / APP-SHARE-004) ---------------------------------------------
+// iOS no tiene Install Referrer: en el mismo toque del boton de App Store la landing copia
+// la URL canonica al portapapeles y, tras instalar, la app ofrece "Pegar enlace".
+
+export const SHARE_ORIGIN = 'https://yoinit.app';
+
+// iPadOS 13+ se presenta como Macintosh: se distingue por tener pantalla tactil.
+export function isIos(userAgent, maxTouchPoints = 0) {
+  const ua = userAgent || '';
+  if (/\b(iPhone|iPad|iPod)\b/i.test(ua)) return true;
+  return /\bMacintosh\b/i.test(ua) && maxTouchPoints > 1;
+}
+
+// URL que se copia: solo rutas validas; '' si no hay nada que recordar.
+export function shareUrl({ matchId, code, groupCode } = {}) {
+  const id = cleanMatchId(matchId);
+  if (id) return `${SHARE_ORIGIN}/partidas/${id}`;
+  const group = cleanGroupCode(groupCode);
+  if (group) return `${SHARE_ORIGIN}/grupos/${group}`;
+  const ref = cleanCode(code);
+  if (ref) return `${SHARE_ORIGIN}/r/${ref}`;
+  return '';
+}
+
+// Copia `text` sin bloquear nunca la navegacion. Llamar dentro del handler de click (gesto
+// de usuario). Devuelve true si se lanzo algun intento. `env` permite probarla sin navegador.
+export function copyToClipboard(text, env = globalThis) {
+  if (!text) return false;
+  try {
+    if (env.navigator && env.navigator.clipboard && typeof env.navigator.clipboard.writeText === 'function') {
+      const p = env.navigator.clipboard.writeText(text);
+      if (p && typeof p.catch === 'function') p.catch(() => legacyCopy(text, env));
+      return true;
+    }
+  } catch {
+    /* cae al metodo antiguo */
+  }
+  return legacyCopy(text, env);
+}
+
+function legacyCopy(text, env) {
+  try {
+    const doc = env.document;
+    if (!doc || !doc.body || typeof doc.execCommand !== 'function') return false;
+    const area = doc.createElement('textarea');
+    area.value = text;
+    area.setAttribute('readonly', '');
+    area.style.position = 'fixed';
+    area.style.opacity = '0';
+    doc.body.appendChild(area);
+    area.select();
+    if (typeof area.setSelectionRange === 'function') area.setSelectionRange(0, text.length);
+    const ok = doc.execCommand('copy');
+    doc.body.removeChild(area);
+    return !!ok;
+  } catch {
+    return false;
+  }
+}

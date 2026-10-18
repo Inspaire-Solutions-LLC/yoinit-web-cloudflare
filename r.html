@@ -85,7 +85,7 @@
 
 <script type="module">
 import { siteConfig } from '/assets/js/config.js';
-import { androidIntentUrl, cleanCode, isAndroid, playStoreUrl } from '/assets/js/deferred-link.js';
+import { androidIntentUrl, cleanCode, isAndroid, copyToClipboard, isIos, playStoreUrl, shareUrl } from '/assets/js/deferred-link.js';
 
 (function () {
   var FALLBACK_DELAY_MS = 1800;
@@ -120,6 +120,23 @@ import { androidIntentUrl, cleanCode, isAndroid, playStoreUrl } from '/assets/js
     androidBadge.setAttribute('aria-label', 'Descargar en Google Play');
     var pending = androidBadge.querySelector('.store-pending');
     if (pending) pending.hidden = true;
+  }
+
+  // iOS: en el mismo toque del boton de App Store se copia la URL para que la app la ofrezca
+  // pegar tras instalar. La copia nunca frena la navegacion. Sin downloads.ios el boton sigue
+  // como "Pronto" y no se copia nada.
+  var iosUrl = siteConfig.downloads.ios;
+  var iosBadge = document.querySelector('[data-store="ios"]');
+  if (iosBadge && iosUrl) {
+    iosBadge.href = iosUrl;
+    iosBadge.removeAttribute('aria-disabled');
+    iosBadge.setAttribute('aria-label', 'Descargar en App Store');
+    var iosPending = iosBadge.querySelector('.store-pending');
+    if (iosPending) iosPending.hidden = true;
+    var copyText = shareUrl({ code: code });
+    if (isIos(navigator.userAgent, navigator.maxTouchPoints)) {
+      iosBadge.addEventListener('click', function () { copyToClipboard(copyText); });
+    }
   }
 
   var withIdText = document.querySelector('[data-state="with-id"]');

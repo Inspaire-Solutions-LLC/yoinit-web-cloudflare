@@ -115,3 +115,82 @@ test('assetlinks.json es por dominio y app: /grupos/ no requiere cambio', () => 
   const raw = readFileSync(new URL('../.well-known/assetlinks.json', import.meta.url), 'utf8');
   assert.ok(!raw.includes('grupos'));
 });
+
+// APP-APPLE-003 / APP-SHARE-004 (iOS): AASA y copiado al portapapeles.
+import { copyToClipboard, isIos, shareUrl } from '../assets/js/deferred-link.js';
+
+test('AASA: JSON valido, appID y rutas de las tres landings', () => {
+  const aasa = JSON.parse(readFileSync(new URL('../.well-known/apple-app-site-association', import.meta.url), 'utf8'));
+  const [detail] = aasa.applinks.details;
+  assert.deepEqual(detail.appIDs, ['MC2TL5C499.com.yoinit.app']);
+  assert.deepEqual(detail.components.map((c) => c['/']), ['/partidas/*', '/grupos/*', '/r/*']);
+});
+
+test('_headers sirve el AASA como application/json', () => {
+  const headers = readFileSync(new URL('../_headers', import.meta.url), 'utf8');
+  assert.match(headers, /\/\.well-known\/apple-app-site-association\n\s+Content-Type: application\/json/);
+});
+
+test('_redirects no toca /.well-known', () => {
+  const redirects = readFileSync(new URL('../_redirects', import.meta.url), 'utf8');
+  assert.doesNotMatch(redirects, /^[^#\n]*well-known/m);
+});
+
+test('isIos: iPhone, iPad, iPadOS como Mac tactil; no Android ni Mac de escritorio', () => {
+  assert.equal(isIos('Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X)'), true);
+  assert.equal(isIos('Mozilla/5.0 (iPad; CPU OS 17_0 like Mac OS X)'), true);
+  assert.equal(isIos('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)', 5), true);
+  assert.equal(isIos('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)', 0), false);
+  assert.equal(isIos('Mozilla/5.0 (Linux; Android 14)'), false);
+  assert.equal(isIos(undefined), false);
+});
+
+test('shareUrl: URL canonica por tipo y vacia si el dato es invalido', () => {
+  assert.equal(shareUrl({ matchId: ID, code: 'ab12cd' }), `https://yoinit.app/partidas/${ID}`);
+  assert.equal(shareUrl({ groupCode: 'abcd2345' }), 'https://yoinit.app/grupos/ABCD2345');
+  assert.equal(shareUrl({ code: 'ab12cd' }), 'https://yoinit.app/r/AB12CD');
+  assert.equal(shareUrl({ matchId: 'x', code: '!' }), '');
+  assert.equal(shareUrl(), '');
+});
+
+test('copyToClipboard usa navigator.clipboard.writeText', () => {
+  const calls = [];
+  const env = { navigator: { clipboard: { writeText: (t) => { calls.push(t); return Promise.resolve(); } } } };
+  assert.equal(copyToClipboard('https://yoinit.app/r/AB12CD', env), true);
+  assert.deepEqual(calls, ['https://yoinit.app/r/AB12CD']);
+});
+
+test('copyToClipboard cae a execCommand si no hay Clipboard API o falla', async () => {
+  const mk = () => {
+    const log = { copied: 0, appended: 0, removed: 0 };
+    const area = { setAttribute() {}, style: {}, select() {}, setSelectionRange() {} };
+    const document = {
+      body: { appendChild: () => { log.appended++; }, removeChild: () => { log.removed++; } },
+      createElement: () => area,
+      execCommand: (cmd) => { if (cmd === 'copy') log.copied++; return true; },
+    };
+    return { log, document };
+  };
+  const a = mk();
+  assert.equal(copyToClipboard('x', { navigator: {}, document: a.document }), true);
+  assert.deepEqual(a.log, { copied: 1, appended: 1, removed: 1 });
+  const b = mk();
+  const rejecting = { clipboard: { writeText: () => Promise.reject(new Error('denied')) } };
+  copyToClipboard('x', { navigator: rejecting, document: b.document });
+  await new Promise((r) => setTimeout(r, 0));
+  assert.equal(b.log.copied, 1);
+});
+
+test('copyToClipboard sin texto o sin ningun metodo no lanza', () => {
+  assert.equal(copyToClipboard('', {}), false);
+  assert.equal(copyToClipboard('x', {}), false);
+});
+
+test('las tres landings copian en el click del boton de iOS solo en iOS', () => {
+  for (const f of ['partidas.html', 'r.html', 'grupos.html']) {
+    const html = readFileSync(new URL(`../${f}`, import.meta.url), 'utf8');
+    assert.match(html, /isIos\(navigator\.userAgent, navigator\.maxTouchPoints\)/, f);
+    assert.match(html, /iosBadge\.addEventListener\('click', function \(\) \{ copyToClipboard\(copyText\); \}\)/, f);
+    assert.match(html, /siteConfig\.downloads\.ios/, f);
+  }
+});
