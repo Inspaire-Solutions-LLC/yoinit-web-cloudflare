@@ -1,0 +1,14 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["MC2TL5C499.com.yoinit.app"],
+        "components": [
+          { "/": "/partidas/*", "comment": "Partida compartida" },
+          { "/": "/grupos/*", "comment": "Grupo por codigo" },
+          { "/": "/r/*", "comment": "Invitacion de referido" }
+        ]
+      }
+    ]
+  }
+}

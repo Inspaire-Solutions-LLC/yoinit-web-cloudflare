@@ -4,8 +4,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Abriendo tu partida — Yoin It</title>
-<meta name="description" content="Abre tu partida en la app de Yoin It.">
+<title>Abriendo tu partida — YoinIt</title>
+<meta name="description" content="Abre tu partida en la app de YoinIt.">
+<!--OG-START-->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="YoinIt">
+<meta property="og:locale" content="es_VE">
+<meta property="og:title" content="Te invitaron a una partida en YoinIt">
+<meta property="og:description" content="Ábrela en la app de YoinIt para ver los detalles y unirte.">
+<meta property="og:image" content="https://yoinit.app/assets/images/og-yoinit-1200x630.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<!--OG-END-->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
@@ -21,6 +32,12 @@
   .partida-fallback .partida-text { margin-bottom: 18px; }
   .partida-fallback .secondary-button { width: 100%; margin-bottom: 22px; }
   .partida-fallback .store-buttons { justify-content: center; margin-top: 0; }
+  .partida-summary { margin: 0 0 24px; padding: 16px; border: 1px solid var(--yo-line); border-radius: 16px; background: var(--yo-raised); text-align: left; }
+  .partida-summary p { margin: 0; }
+  .partida-summary-when { font-family: Archivo, sans-serif; font-weight: 800; font-size: 22px; line-height: 1.2; letter-spacing: -.02em; color: var(--yo-text); }
+  .partida-summary-meta { margin-top: 8px !important; font-size: 15px; line-height: 1.5; color: var(--yo-secondary); }
+  .partida-summary-place { margin-top: 2px !important; font-size: 15px; line-height: 1.5; color: var(--yo-secondary); }
+  .partida-summary-slots { margin-top: 10px !important; font-size: 15px; font-weight: 600; line-height: 1.5; color: var(--yo-text); }
   [hidden] { display: none !important; }
 </style>
 </head>
@@ -34,16 +51,18 @@
     <h1 class="partida-title">Te estamos llevando a tu partida</h1>
 
     <p class="partida-text" data-state="with-id">
-      Si ya tienes Yoin It instalada, esto debería abrir tu partida allá. Si no pasó nada, tócalo tú mismo.
+      Si ya tienes YoinIt instalada, esto debería abrir tu partida allá. Si no pasó nada, tócalo tú mismo.
     </p>
     <p class="partida-text" data-state="no-id" hidden>
       Este link no trae los datos completos de la partida. Ábrelo desde la invitación original o desde la app.
     </p>
 
+    <!--MATCH-SUMMARY-->
+
     <button type="button" class="primary-button partida-cta" data-action="open-app">Abrir en la app</button>
 
     <div id="fallback" class="partida-fallback" hidden>
-      <p class="partida-text">¿No pasó nada? Puede que todavía no tengas Yoin It instalada.</p>
+      <p class="partida-text">¿No pasó nada? Puede que todavía no tengas YoinIt instalada.</p>
 
       <button type="button" class="secondary-button" data-action="open-app" data-retry>Reintentar abrir la app</button>
 
@@ -67,7 +86,10 @@
   </div>
 </main>
 
-<script>
+<script type="module">
+import { siteConfig } from '/assets/js/config.js';
+import { androidIntentUrl, cleanCode, isAndroid, copyToClipboard, isIos, playStoreUrl, shareUrl } from '/assets/js/deferred-link.js';
+
 (function () {
   var FALLBACK_DELAY_MS = 1800;
 
@@ -86,14 +108,50 @@
   var hasId = !!matchId;
   var deepLink = 'com.yoinit.app://open/partidas/' + encodeURIComponent(matchId);
 
+  // Enlace diferido (APP-SHARE-004): la ficha de Play lleva la partida y el codigo de
+  // invitacion (?ref= del enlace compartido) para que la app los recuerde tras instalar.
+  var refCode = cleanCode(new URLSearchParams(window.location.search).get('ref'));
+  var playUrl = playStoreUrl(siteConfig.downloads.android, { matchId: matchId, code: refCode });
+  var android = isAndroid(navigator.userAgent);
+
   function openApp() {
     if (!hasId) return;
-    window.location.href = deepLink;
+    // Android: intent de Chrome. Si la app no esta, va a la ficha de Play (si ya existe)
+    // en vez de no hacer nada. Los Universal Links de iOS no necesitan esto.
+    window.location.href = android
+      ? androidIntentUrl('/partidas/' + encodeURIComponent(matchId), playUrl)
+      : deepLink;
   }
 
   var openButtons = document.querySelectorAll('[data-action="open-app"]');
   for (var i = 0; i < openButtons.length; i++) {
     openButtons[i].addEventListener('click', openApp);
+  }
+
+  var androidBadge = document.querySelector('[data-store="android"]');
+  if (androidBadge && playUrl) {
+    androidBadge.href = playUrl;
+    androidBadge.removeAttribute('aria-disabled');
+    androidBadge.setAttribute('aria-label', 'Descargar en Google Play');
+    var pending = androidBadge.querySelector('.store-pending');
+    if (pending) pending.hidden = true;
+  }
+
+  // iOS: en el mismo toque del boton de App Store se copia la URL para que la app la ofrezca
+  // pegar tras instalar. La copia nunca frena la navegacion. Sin downloads.ios el boton sigue
+  // como "Pronto" y no se copia nada.
+  var iosUrl = siteConfig.downloads.ios;
+  var iosBadge = document.querySelector('[data-store="ios"]');
+  if (iosBadge && iosUrl) {
+    iosBadge.href = iosUrl;
+    iosBadge.removeAttribute('aria-disabled');
+    iosBadge.setAttribute('aria-label', 'Descargar en App Store');
+    var iosPending = iosBadge.querySelector('.store-pending');
+    if (iosPending) iosPending.hidden = true;
+    var copyText = shareUrl({ matchId: matchId, code: refCode });
+    if (isIos(navigator.userAgent, navigator.maxTouchPoints)) {
+      iosBadge.addEventListener('click', function () { copyToClipboard(copyText); });
+    }
   }
 
   var withIdText = document.querySelector('[data-state="with-id"]');
@@ -112,11 +170,12 @@
     return;
   }
 
-  // Intento automático best-effort: muchos navegadores móviles solo
+  // Intento automatico best-effort: muchos navegadores moviles solo
   // permiten abrir un esquema custom con un gesto real del usuario,
-  // así que esto puede no disparar nada y el botón manual sigue siendo
-  // la vía principal.
-  setTimeout(openApp, 50);
+  // asi que esto puede no disparar nada y el boton manual sigue siendo
+  // la via principal. Se usa siempre el esquema propio (sin intent): un
+  // intent con fallback mandaria a Play sin que el usuario toque nada.
+  setTimeout(function () { window.location.href = deepLink; }, 50);
 
   setTimeout(function () {
     if (document.visibilityState !== 'hidden' && fallback) {

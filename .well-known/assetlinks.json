@@ -1,0 +1,13 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.yoinit.app",
+      "sha256_cert_fingerprints": [
+        "01:22:02:D2:62:76:18:93:ED:FF:C5:55:F5:29:1B:1D:6A:2B:21:F1:45:D8:4C:76:EA:05:92:06:43:6A:B8:7A",
+        "42:3B:AF:A2:12:A4:5E:64:0B:44:5A:68:6E:20:5B:3C:2B:A0:23:7F:82:BA:DF:E0:62:F2:50:1C:DB:7E:8F:0F"
+      ]
+    }
+  }
+]
