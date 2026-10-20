@@ -10,3 +10,11 @@ export const siteConfig = {
     '07': 'assets/images/07-jugadora.webp', '08': 'assets/images/08-comunidad-v2.webp', '09': 'assets/images/09-panel-club.webp', '10': 'assets/images/10-cobros.webp', '11': 'assets/images/11-panel-movil.webp',
   },
 };
+
+// CRED-004: compra de pelotas por web (/pelotas/). Los pone Freddy; vacios o enabled:false
+// dejan la pagina en "Proximamente" sin pintar el checkout. La anon key es publica por diseno.
+export const pelotasConfig = {
+  supabaseUrl: '', // https://<ref>.supabase.co (produccion)
+  anonKey: '',
+  enabled: false,
+};
