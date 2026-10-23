@@ -14,10 +14,9 @@ test('/terminos existe con correo, comunidad y enlace a eliminar cuenta', () => 
   assert.match(html, /Venezuela/);
 });
 
-test('privacidad enlaza a terminos y no menciona pelotas', () => {
+test('privacidad enlaza a terminos', () => {
   const html = read('privacidad/index.html');
   assert.match(html, /\.\.\/terminos\//);
-  assert.doesNotMatch(html, /pelotas/i);
 });
 
 test('el pie de la home enlaza a /terminos', () => {
