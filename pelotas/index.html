@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es-VE">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Pelotas — YoinIt</title>
+  <meta name="description" content="Qué son las pelotas de YoinIt y cómo conseguirlas.">
+  <link rel="canonical" href="https://yoinit.app/pelotas/">
+  <link rel="icon" href="../assets/brand/yoinit-logo-kit-v1/favicon/favicon.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="../assets/brand/yoinit-logo-kit-v1/favicon/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="../assets/brand/yoinit-logo-kit-v1/favicon/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="stylesheet" href="../assets/css/privacy.css">
+  <link rel="stylesheet" href="../assets/css/pelotas.css">
+</head>
+<body class="privacy-page pelotas-page">
+  <a href="#contenido" class="skip-link">Saltar al contenido</a>
+
+  <header class="privacy-header">
+    <div class="privacy-header__inner">
+      <a href="../" class="privacy-brand" aria-label="YoinIt, volver al inicio">
+        <img src="../assets/brand/yoinit-logo-kit-v1/svg/yoinit-horizontal-color-fondo-oscuro.svg" alt="YoinIt">
+      </a>
+      <nav aria-label="Navegación" class="privacy-header__nav">
+        <a href="../">Inicio</a>
+        <a href="../privacidad/">Privacidad</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <section class="pel-hero" aria-labelledby="pel-title">
+      <div class="pel-wrap">
+        <p class="privacy-breadcrumb"><a href="../">YoinIt</a><span aria-hidden="true">/</span> Pelotas</p>
+        <h1 id="pel-title">Pelotas</h1>
+        <p class="pel-lead">Una pelota por cada partida que juegas. No caducan: las que te sobren se quedan en tu cuenta para la próxima cancha.</p>
+      </div>
+    </section>
+
+    <section class="pel-ways" aria-labelledby="ways-title">
+      <div class="pel-wrap">
+        <h2 id="ways-title" class="pel-h2">Tres formas de conseguirlas</h2>
+        <ol class="pel-ways__list">
+          <li>
+            <span class="pel-num" aria-hidden="true">1</span>
+            <h3>Regalo mensual</h3>
+            <p>El día 1 de cada mes te sumamos 2 pelotas si tienes menos de 4. Si ya tienes 4 o más, ese mes no toca.</p>
+          </li>
+          <li>
+            <span class="pel-num" aria-hidden="true">2</span>
+            <h3>Invita desde la app</h3>
+            <p>Cuando invitas a tu gente y se anotan, ganas pelotas. El enlace de invitación lo generas dentro de la app.</p>
+          </li>
+          <li>
+            <span class="pel-num" aria-hidden="true">3</span>
+            <h3>Compra un pack aquí</h3>
+            <p>Elige un pack y paga por Pago Móvil. Las pelotas se acreditan en cuanto el banco confirma el pago.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="pel-buy" id="comprar" aria-labelledby="buy-title">
+      <div class="pel-wrap pel-wrap--narrow">
+        <h2 id="buy-title" class="pel-h2">Comprar un pack</h2>
+
+        <div class="pel-soon" id="pel-soon" role="status">
+          <p class="pel-soon__badge">Próximamente</p>
+          <p id="pel-soon-text">La compra por la web aún no está disponible.</p>
+        </div>
+
+        <div class="pel-checkout" id="pel-checkout" hidden>
+          <ol class="pel-steps" id="pel-steps" aria-label="Pasos de la compra">
+            <li data-step="correo">Correo</li>
+            <li data-step="pack">Pack</li>
+            <li data-step="perfil">Tus datos</li>
+            <li data-step="pago">Pago</li>
+          </ol>
+
+          <p class="pel-alert" id="pel-alert" role="alert" hidden></p>
+
+          <section class="pel-panel" data-panel="correo" aria-labelledby="t-correo">
+            <h3 id="t-correo" tabindex="-1">Entra con tu correo</h3>
+            <p class="pel-help">Usa el mismo correo de tu cuenta de YoinIt. Te enviamos un código para entrar, sin contraseña.</p>
+            <form id="form-correo" novalidate>
+              <label class="pel-field" for="in-email"><span>Correo</span></label>
+              <input id="in-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="nombre@correo.com" required>
+              <p class="pel-field-error" id="err-email" hidden></p>
+              <button type="submit" class="pel-btn">Enviar código</button>
+            </form>
+          </section>
+
+          <section class="pel-panel" data-panel="codigo" aria-labelledby="t-codigo" hidden>
+            <h3 id="t-codigo" tabindex="-1">Escribe el código</h3>
+            <p class="pel-help" id="codigo-help">Si ese correo tiene una cuenta, te llegará un código. Puede tardar un minuto.</p>
+            <form id="form-codigo" novalidate>
+              <label class="pel-field" for="in-otp"><span>Código</span></label>
+              <input id="in-otp" name="otp" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="123456" required>
+              <p class="pel-field-error" id="err-otp" hidden></p>
+              <button type="submit" class="pel-btn">Entrar</button>
+              <button type="button" class="pel-btn pel-btn--ghost" id="btn-otp-back">Cambiar correo</button>
+            </form>
+          </section>
+
+          <section class="pel-panel" data-panel="pack" aria-labelledby="t-pack" hidden>
+            <h3 id="t-pack" tabindex="-1">Elige un pack</h3>
+            <p class="pel-help" id="pack-help">Una pelota equivale a una partida jugada.</p>
+            <div class="pel-packs" id="pack-list" role="radiogroup" aria-labelledby="t-pack"></div>
+            <button type="button" class="pel-btn" id="btn-pack-next" disabled>Continuar</button>
+          </section>
+
+          <section class="pel-panel" data-panel="perfil" aria-labelledby="t-perfil" hidden>
+            <h3 id="t-perfil" tabindex="-1">Tus datos de Pago Móvil</h3>
+            <p class="pel-help">Son los datos de la cuenta desde la que vas a pagar. Los usamos para reconocer el pago que envíe tu banco.</p>
+            <div class="pel-profiles" id="profile-list" role="radiogroup" aria-label="Perfiles guardados" hidden></div>
+            <form id="form-perfil" novalidate>
+              <label class="pel-field" for="in-bank"><span>Banco</span></label>
+              <select id="in-bank" name="bank" required></select>
+              <p class="pel-field-error" id="err-bank" hidden></p>
+
+              <label class="pel-field" for="in-phone"><span>Teléfono afiliado a Pago Móvil</span></label>
+              <input id="in-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="0414-1234567" required>
+              <p class="pel-field-error" id="err-phone" hidden></p>
+
+              <label class="pel-field" for="in-doc"><span>Cédula o RIF</span></label>
+              <input id="in-doc" name="doc" type="text" autocomplete="off" autocapitalize="characters" placeholder="V-12345678" required>
+              <p class="pel-field-error" id="err-doc" hidden></p>
+
+              <button type="submit" class="pel-btn" id="btn-perfil">Continuar con Pago Móvil</button>
+            </form>
+            <button type="button" class="pel-btn pel-btn--ghost" id="btn-use-profile" hidden>Continuar con el perfil elegido</button>
+            <button type="button" class="pel-btn pel-btn--ghost" id="btn-new-profile" hidden>Usar otros datos</button>
+          </section>
+
+          <section class="pel-panel" data-panel="pago" aria-labelledby="t-pago" hidden>
+            <h3 id="t-pago" tabindex="-1">Haz el pago</h3>
+            <p class="pel-timer" id="pago-timer" aria-live="off"></p>
+            <dl class="pel-coords" id="pago-coords"></dl>
+            <p class="pel-note" id="pago-note"></p>
+            <button type="button" class="pel-btn" id="btn-sent">Ya hice el pago</button>
+            <p class="pel-help pel-help--center">No cierres esta página. La confirmación llega sola.</p>
+          </section>
+
+          <section class="pel-panel pel-result" data-panel="estado" aria-labelledby="t-estado" hidden>
+            <h3 id="t-estado" tabindex="-1"></h3>
+            <p class="pel-help" id="estado-body" role="status"></p>
+            <button type="button" class="pel-btn pel-btn--ghost" id="btn-retry" hidden>Intentarlo de nuevo</button>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="privacy-footer">
+    <div class="privacy-footer__inner">
+      <div>
+        <img src="../assets/brand/yoinit-logo-kit-v1/svg/yoinit-horizontal-color-fondo-oscuro.svg" alt="YoinIt">
+        <p>Crea el partido. Invita a tu gente. Juega.</p>
+      </div>
+      <nav aria-label="Enlaces del pie de página">
+        <a href="../">Inicio</a>
+        <a href="../terminos/">Términos</a>
+        <a href="../privacidad/">Privacidad</a>
+      </nav>
+    </div>
+    <div class="privacy-footer__bottom">
+      <p>© 2026 YoinIt · Caracas, Venezuela</p>
+      <p>Una pelota por partida jugada.</p>
+    </div>
+  </footer>
+
+  <script type="module" src="../assets/js/pelotas.js"></script>
+</body>
+</html>

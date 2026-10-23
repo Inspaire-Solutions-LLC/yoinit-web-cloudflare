@@ -1,0 +1,95 @@
+/* CRED-004: /pelotas/ y /pelotas/como-conseguir/. Solo variables --yo-* de styles.css. */
+.pelotas-page {
+  --pel-tint: color-mix(in srgb, var(--yo-acid) 12%, transparent);
+  --pel-warn-tint: color-mix(in srgb, var(--yo-warn) 14%, transparent);
+}
+
+.pel-wrap { width: min(1100px, calc(100% - 40px)); margin-inline: auto; }
+.pel-wrap--narrow { width: min(640px, calc(100% - 40px)); }
+
+.pel-hero { padding: clamp(48px, 8vw, 104px) 0 clamp(32px, 5vw, 56px); border-bottom: 1px solid var(--yo-line); }
+.pel-hero h1 { margin: 0; font: 800 clamp(48px, 9vw, 94px)/.96 Archivo, sans-serif; letter-spacing: -.055em; }
+.pel-lead { max-width: 560px; margin: 22px 0 0; color: var(--yo-secondary); font-size: clamp(16px, 2vw, 19px); line-height: 1.6; }
+
+.pel-h2 { margin: 0 0 28px; font: 800 clamp(26px, 4vw, 38px)/1.08 Archivo, sans-serif; letter-spacing: -.035em; }
+
+.pel-ways { padding: clamp(40px, 6vw, 80px) 0; }
+.pel-ways__list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.pel-ways__list--two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.pel-ways__list li { padding: 24px; border: 1px solid var(--yo-line); border-radius: 18px; background: var(--yo-surface); }
+.pel-ways__list h3 { margin: 16px 0 8px; font: 800 21px/1.15 Archivo, sans-serif; letter-spacing: -.02em; }
+.pel-ways__list p { margin: 0; color: var(--yo-secondary); font-size: 15px; line-height: 1.6; }
+.pel-num { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: var(--yo-raised); color: var(--yo-text); font: 800 15px Archivo, sans-serif; }
+
+.pel-buy { padding: clamp(40px, 6vw, 80px) 0 clamp(56px, 8vw, 104px); border-top: 1px solid var(--yo-line); }
+.pel-soon { padding: 22px; border: 1px dashed var(--yo-line); border-radius: 18px; background: var(--yo-surface); }
+.pel-soon p { margin: 0; color: var(--yo-secondary); font-size: 15px; line-height: 1.6; }
+.pel-soon__badge { display: inline-flex; align-items: center; min-height: 28px; padding: 4px 11px; margin-bottom: 12px !important; border-radius: 8px; background: var(--pel-warn-tint); color: var(--yo-warn) !important; font-size: 12px !important; font-weight: 700; }
+
+.pel-steps { list-style: none; margin: 0 0 28px; padding: 0; display: flex; gap: 8px; counter-reset: step; }
+.pel-steps li { flex: 1; min-width: 0; padding-top: 10px; border-top: 4px solid var(--yo-raised); color: var(--yo-muted); font-size: 12px; font-weight: 700; }
+.pel-steps li.is-done { border-color: var(--yo-secondary); color: var(--yo-secondary); }
+.pel-steps li.is-current { border-color: var(--yo-acid); color: var(--yo-text); }
+
+.pel-panel { padding: clamp(22px, 4vw, 34px); border: 1px solid var(--yo-line); border-radius: 22px; background: var(--yo-surface); }
+.pel-panel h3 { margin: 0 0 10px; font: 800 clamp(24px, 4vw, 30px)/1.1 Archivo, sans-serif; letter-spacing: -.035em; }
+.pel-panel h3:focus { outline: none; }
+.pel-help { margin: 0 0 20px; color: var(--yo-secondary); font-size: 15px; line-height: 1.6; }
+.pel-help--center { margin: 14px 0 0; text-align: center; font-size: 13px; color: var(--yo-muted); }
+
+.pel-field { display: block; margin: 18px 0 8px; color: var(--yo-text); font-size: 14px; font-weight: 700; }
+.pel-panel input, .pel-panel select {
+  display: block; width: 100%; min-height: 48px; padding: 0 14px;
+  border: 1px solid var(--yo-line); border-radius: 12px; background: var(--yo-base);
+  color: var(--yo-text); font-size: 16px;
+}
+.pel-panel input::placeholder { color: var(--yo-muted); }
+.pel-panel input:focus-visible, .pel-panel select:focus-visible { outline-offset: 2px; }
+.pel-field-error { margin: 8px 0 0; color: var(--yo-warn); font-size: 13px; line-height: 1.5; }
+
+.pel-btn {
+  display: flex; align-items: center; justify-content: center; width: 100%; min-height: 52px; margin-top: 22px;
+  padding: 0 22px; border: 0; border-radius: 14px; background: var(--yo-acid); color: var(--yo-base);
+  font: 700 16px 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+.pel-btn:hover { background: var(--yo-text); }
+.pel-btn--ghost { margin-top: 12px; border: 1px solid var(--yo-line); background: transparent; color: var(--yo-text); }
+.pel-btn--ghost:hover { background: var(--yo-raised); }
+
+.pel-alert { margin: 0 0 20px; padding: 14px 16px; border-left: 3px solid var(--yo-warn); border-radius: 4px; background: var(--pel-warn-tint); color: var(--yo-text); font-size: 14px; line-height: 1.55; }
+
+.pel-packs, .pel-profiles { display: grid; gap: 10px; }
+.pel-option {
+  display: flex; align-items: center; gap: 14px; width: 100%; min-height: 64px; padding: 14px 16px; text-align: left;
+  border: 1px solid var(--yo-line); border-radius: 14px; background: var(--yo-raised); color: var(--yo-text);
+}
+.pel-option:hover, .pel-option[aria-checked="true"] { border-color: var(--yo-acid); background: var(--pel-tint); }
+.pel-option__main { flex: 1; min-width: 0; }
+.pel-option__title { display: block; font: 800 19px/1.2 Archivo, sans-serif; letter-spacing: -.02em; }
+.pel-option__sub { display: block; margin-top: 4px; color: var(--yo-secondary); font-size: 13px; line-height: 1.4; }
+.pel-option__price { flex: none; font: 800 20px Archivo, sans-serif; text-align: right; }
+.pel-option__price small { display: block; margin-top: 2px; color: var(--yo-secondary); font: 600 12px 'Plus Jakarta Sans', system-ui, sans-serif; }
+
+.pel-timer { margin: 0 0 18px; color: var(--yo-secondary); font-size: 14px; }
+.pel-timer strong { color: var(--yo-text); font: 800 22px Archivo, sans-serif; margin-left: 6px; }
+
+.pel-coords { margin: 0; border: 1px solid var(--yo-line); border-radius: 16px; background: var(--yo-base); }
+.pel-coords div { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; padding: 12px 16px; border-top: 1px solid var(--yo-line); }
+.pel-coords div:first-child { border-top: 0; }
+.pel-coords dt { flex: 1 1 110px; color: var(--yo-muted); font-size: 13px; font-weight: 700; }
+.pel-coords dd { flex: 2 1 140px; margin: 0; min-width: 0; font: 800 17px Archivo, sans-serif; overflow-wrap: anywhere; }
+.pel-coords .pel-coords__key { background: var(--yo-raised); }
+.pel-copy { flex: none; min-width: 44px; min-height: 44px; padding: 0 12px; border: 1px solid var(--yo-line); border-radius: 10px; background: transparent; color: var(--yo-secondary); font-size: 13px; font-weight: 700; }
+.pel-copy:hover { background: var(--yo-raised); color: var(--yo-text); }
+.pel-note { margin: 16px 0 0; padding: 14px 16px; border-radius: 12px; background: var(--yo-raised); color: var(--yo-secondary); font-size: 14px; line-height: 1.55; }
+
+.pel-result { text-align: center; }
+
+@media (max-width: 760px) {
+  .pel-ways__list, .pel-ways__list--two { grid-template-columns: 1fr; }
+  .pel-steps li { font-size: 11px; }
+}
+@media (max-width: 400px) {
+  .pel-option { flex-wrap: wrap; }
+  .pel-option__price { text-align: left; }
+}
