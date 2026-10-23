@@ -17,7 +17,7 @@ Tracking (usar datos para seguir al usuario entre apps/webs de terceros o compar
 | Health & Fitness | Fitness | No (el nivel de pádel y los resultados son datos de juego, no de salud) | | | Ver duda 2 |
 | Financial Info | Other Financial Info (banco, cédula/RIF, referencia de Pago Móvil) | Solo si se activan reservas/pagos (`CLUB_FLOWS_ENABLED`) | Sí | No | App Functionality. Nunca números de tarjeta |
 | Purchases | Purchase History | Solo con pagos activos (historial de reservas/pagos) | Sí | No | App Functionality |
-| Location | Precise Location | Sí, solo en uso (When In Use); se envía al servidor para ordenar por distancia y buscar lugares con Google Places | Ver duda 1 | No | App Functionality |
+| Location | Precise Location | Sí, solo en uso (When In Use). La distancia a clubes se calcula en el teléfono; las coordenadas solo viajan al buscador de lugares (edge function `places-autocomplete`, que las reenvía a Google Places para sesgar resultados), sin guardarse en nuestra base de datos | No (no se asocia a la cuenta ni se almacena) | No | App Functionality |
 | Location | Coarse Location | Cubierto por la anterior | | | |
 | Contacts | Contacts | No | | | |
 | User Content | Photos or Videos | Sí (fotos enviadas al chat de grupo; foto/avatar de perfil si existe) | Sí | No | App Functionality |
@@ -58,10 +58,10 @@ Permisos Android declarados: ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION (más 
 
 ## Dudas abiertas
 
-1. Ubicación: la app envía lat/lng al servidor (RPC de cercanía) y a Google Places. Conviene confirmar en backend si se persiste (logs); si no se guarda, Apple permite no declararla "vinculada" solo si no se asocia a la cuenta; por prudencia, declararla vinculada.
+1. Ubicación (resuelta 2026-10-23): no hay RPC de cercanía; la distancia se calcula en el cliente (`club_with_distance.dart`). Solo `google_place_search_sheet.dart` envía lat/lng a `places-autocomplete`, que no las guarda ni las registra. Se declara recogida (viaja a un tercero), uso App Functionality, no vinculada y sin tracking. El manifest de la app la marca vinculada por prudencia; no afecta a la etiqueta.
 2. Nivel/resultados de pádel: no es salud, pero Apple a veces lo ve como Fitness. Mantener "No" salvo que el revisor pida lo contrario.
 3. Google Places: el texto buscado sale a Google. Confirmar si pasa por edge function (Google ve la IP del servidor) o desde el dispositivo, y si debe constar como "Search History".
-4. Sentry: con `sendDefaultPii=false` no se envía IP ni usuario, pero los eventos pueden llevar id de dispositivo. Si se llama `Sentry.setUser`, pasa a "vinculado". Revisar antes de enviar.
+4. Sentry (resuelta 2026-10-23): no hay `setUser` ni `SentryUser` en `lib/`, y `sendDefaultPii=false`. Datos de diagnóstico no vinculados a la identidad.
 5. Pagos/reservas y créditos: están apagados por defecto en la app (`clubFlowsEnabled=false`). Si el build de revisión no los incluye, no declarar Financial Info/Purchases; si se activan después, actualizar la ficha antes.
 6. Correos de novedades y push de marketing: la privacidad los condiciona a consentimiento; no se verificó que la app tenga un interruptor. Si no existen, quitarlos del texto.
 7. Mantener alineado: cualquier cambio aquí exige revisar `/privacidad` y viceversa.
