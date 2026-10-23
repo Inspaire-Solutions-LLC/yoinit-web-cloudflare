@@ -15,7 +15,7 @@ Tracking (usar datos para seguir al usuario entre apps/webs de terceros o compar
 | Contact Info | Phone Number | Sí (campo de perfil y Pago Móvil) | Sí | No | App Functionality |
 | Contact Info | Physical address / Other | No | | | |
 | Health & Fitness | Fitness | No (el nivel de pádel y los resultados son datos de juego, no de salud) | | | Ver duda 2 |
-| Financial Info | Other Financial Info (banco, cédula/RIF, referencia de Pago Móvil) | Solo si se activan reservas/pagos (`CLUB_FLOWS_ENABLED`) | Sí | No | App Functionality. Nunca números de tarjeta |
+| Financial Info | Payment Info y Other Financial Info (banco, teléfono y cédula/RIF del perfil de Pago Móvil, que el organizador guarda para Cuentas claras) | Sí: Cuentas claras está activa en la etapa 1. YoinIt no procesa el pago, solo guarda el perfil y el registro de quién pagó | Sí | No | App Functionality. Nunca números de tarjeta |
 | Purchases | Purchase History | Solo con pagos activos (historial de reservas/pagos) | Sí | No | App Functionality |
 | Location | Precise Location | Sí, solo en uso (When In Use). La distancia a clubes se calcula en el teléfono; las coordenadas solo viajan al buscador de lugares (edge function `places-autocomplete`, que las reenvía a Google Places para sesgar resultados), sin guardarse en nuestra base de datos | No (no se asocia a la cuenta ni se almacena) | No | App Functionality |
 | Location | Coarse Location | Cubierto por la anterior | | | |
@@ -45,7 +45,7 @@ Notas de cuestionario:
 | Personal info | Email address | Sí | No | No | App functionality, Account management, Communications |
 | Personal info | User IDs | Sí | No | No | App functionality, Account management |
 | Personal info | Phone number | Sí | No | Sí | App functionality |
-| Financial info | Other financial info | Solo si hay pagos activos | No | Sí | App functionality |
+| Financial info | Other financial info (Pago Móvil del organizador) | Sí | No | Sí (se muestra a los inscritos de esa partida al pasar la cuenta) | App functionality |
 | Location | Approximate location | Sí | No | Sí (permiso opcional) | App functionality |
 | Location | Precise location | Sí (se pide FINE y COARSE) | No | Sí | App functionality |
 | Photos and videos | Photos | Sí (chat de grupo, avatar) | No | Sí | App functionality |
@@ -62,6 +62,6 @@ Permisos Android declarados: ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION (más 
 2. Nivel/resultados de pádel: no es salud, pero Apple a veces lo ve como Fitness. Mantener "No" salvo que el revisor pida lo contrario.
 3. Google Places: el texto buscado sale a Google. Confirmar si pasa por edge function (Google ve la IP del servidor) o desde el dispositivo, y si debe constar como "Search History".
 4. Sentry (resuelta 2026-10-23): no hay `setUser` ni `SentryUser` en `lib/`, y `sendDefaultPii=false`. Datos de diagnóstico no vinculados a la identidad.
-5. Pagos/reservas y créditos: están apagados por defecto en la app (`clubFlowsEnabled=false`). Si el build de revisión no los incluye, no declarar Financial Info/Purchases; si se activan después, actualizar la ficha antes.
+5. Pagos (corregida 2026-10-23): Cuentas claras (pago entre jugadores por Pago Móvil) SÍ está activa, así que Financial Info se declara. Reservas con club y créditos siguen apagados (`clubFlowsEnabled=false`, `player_billing_ui` false); si se activan, actualizar la ficha antes.
 6. Correos de novedades y push de marketing: la privacidad los condiciona a consentimiento; no se verificó que la app tenga un interruptor. Si no existen, quitarlos del texto.
 7. Mantener alineado: cualquier cambio aquí exige revisar `/privacidad` y viceversa.
