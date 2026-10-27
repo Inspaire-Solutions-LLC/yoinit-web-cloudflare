@@ -18,3 +18,20 @@ export const pelotasConfig = {
   anonKey: '',
   enabled: false,
 };
+
+// APP-SEC-002: site keys publicas de Cloudflare Turnstile, por hostname. Host que no
+// esta en la tabla = sin captcha (la pagina sigue funcionando sin widget).
+export const turnstileConfig = {
+  prod: '0x4AAAAAAFoOB9AoraeQQoPG',
+  dev: '0x4AAAAAAFoN5z-Z2V-FxJfj',
+  hosts: {
+    'yoinit.app': 'prod',
+    'www.yoinit.app': 'prod',
+    'panel.yoinit.app': 'prod',
+    'localhost': 'dev',
+    '127.0.0.1': 'dev',
+    'yoinit-web-cloudflare-develop.joselinods-is.workers.dev': 'dev',
+    'yoinit-web-cloudflare-pages-dev.pages.dev': 'dev',
+    'yoinit-backend-dev.vercel.app': 'dev',
+  },
+};

@@ -6,13 +6,15 @@ import {
   formatVes, isSalesDisabled, isValidEmail, isValidOtp, normalizeIdDoc, normalizePhone, pelotasLabel, pickRate,
   POLL_INTERVAL_MS, pricePerMatch, purchaseState, STATE_COPY, vesForCopy,
 } from './pelotas-logic.js';
+import { buildOtpBody, captchaFailureMessage, isCaptchaError, siteKeyForHost } from './captcha-logic.js';
+import { loadTurnstile } from './turnstile-loader.js';
 
 const $ = (id) => document.getElementById(id);
 const soon = $('pel-soon');
 const checkout = $('pel-checkout');
 const alertBox = $('pel-alert');
 
-const state = { email: '', token: null, packs: [], rate: null, banks: [], profiles: [], pack: null, profileId: null, purchase: null, attempt: null, timer: null, tick: null };
+const state = { email: '', token: null, packs: [], rate: null, banks: [], profiles: [], pack: null, profileId: null, purchase: null, attempt: null, timer: null, tick: null, captchaToken: null, captchaId: null, captchaKey: siteKeyForHost(location.hostname) };
 
 class ApiError extends Error {
   constructor(code, status) { super(code); this.code = code; this.status = status; }
@@ -88,18 +90,51 @@ function fail(err) {
   setAlert(errorMessage(err));
 }
 
+// ---------- Captcha (APP-SEC-002) ----------
+// Sin site key para este host no hay widget y el POST va sin token.
+async function initCaptcha() {
+  if (!state.captchaKey) return;
+  const box = $('cf-widget');
+  box.hidden = false;
+  try {
+    const ts = await loadTurnstile();
+    state.captchaId = ts.render(box, {
+      sitekey: state.captchaKey, theme: 'auto', size: 'normal',
+      callback: (t) => { state.captchaToken = t; },
+      'expired-callback': () => { state.captchaToken = null; },
+      'timeout-callback': () => { state.captchaToken = null; },
+      'error-callback': () => { state.captchaToken = null; return true; },
+    });
+  } catch {
+    state.captchaId = null;
+    setAlert(captchaFailureMessage('failed'));
+  }
+}
+
+function resetCaptcha() {
+  state.captchaToken = null;
+  if (state.captchaId !== null && window.turnstile) {
+    try { window.turnstile.reset(state.captchaId); } catch { /* widget ya no existe */ }
+  }
+}
+
 // ---------- Paso 1 y 2: correo y codigo ----------
 function initCorreo() {
+  initCaptcha();
   $('form-correo').addEventListener('submit', async (e) => {
     e.preventDefault();
     const email = cleanEmail($('in-email').value);
     if (!isValidEmail(email)) { fieldError('err-email', 'Escribe un correo válido.'); return; }
     fieldError('err-email', '');
+    if (state.captchaKey && !state.captchaToken) { setAlert(captchaFailureMessage(state.captchaId === null ? 'failed' : 'missing')); if (state.captchaId === null) initCaptcha(); return; }
     const btn = e.target.querySelector('button[type=submit]');
     busy(btn, true, 'Enviando…');
     try {
-      await api('/auth/v1/otp', { method: 'POST', auth: false, body: { email, create_user: false } });
+      await api('/auth/v1/otp', { method: 'POST', auth: false, body: buildOtpBody(email, state.captchaToken) });
+      resetCaptcha();
     } catch (err) {
+      resetCaptcha();
+      if (isCaptchaError(err)) { busy(btn, false); setAlert(captchaFailureMessage('rejected')); return; }
       // Respuesta generica: solo se distinguen limite de envios y falta de red; cualquier otro
       // error cuenta como enviado para no revelar si el correo existe.
       if (err.status === 429 || err.code === 'network') { busy(btn, false); setAlert(errorMessage(err)); return; }
