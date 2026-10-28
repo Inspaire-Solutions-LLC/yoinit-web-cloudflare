@@ -48,3 +48,11 @@ test('home abre con una definicion citable y llms-full.txt existe y esta enlazad
   assert.match(full, /id6824063226/);
   assert.match(full, /hello@yoinit\.app/);
 });
+
+test('404.html: pagina propia, noindex, rutas absolutas y sin JS ni hex sueltos', () => {
+  const html = read('404.html');
+  assert.match(html, /<meta name="robots" content="noindex, nofollow">/);
+  assert.match(html, /href="\/assets\/css\/styles\.css"/);
+  assert.match(html, /href="\/">Ir al inicio/);
+  assert.doesNotMatch(html, /<script|#[0-9a-fA-F]{6}\b/);
+});
