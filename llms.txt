@@ -7,6 +7,7 @@
 - [Google Play (Android)](https://play.google.com/store/apps/details?id=com.yoinit.app)
 
 ## Información
+- [Versión extendida con datos clave, cómo funciona y preguntas frecuentes](https://yoinit.app/llms-full.txt)
 - [Inicio: qué es YoinIt, cómo funciona y preguntas frecuentes](https://yoinit.app/)
 - [Términos y condiciones](https://yoinit.app/terminos/)
 - [Política de privacidad](https://yoinit.app/privacidad/)

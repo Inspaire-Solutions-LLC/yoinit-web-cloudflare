@@ -40,3 +40,11 @@ test('home: un solo h1 y las imagenes de producto vienen en el HTML estatico', (
     assert.ok(alt.length > 5);
   }
 });
+
+test('home abre con una definicion citable y llms-full.txt existe y esta enlazado', () => {
+  assert.match(read('index.html'), /YoinIt es una app para organizar partidos de pádel en Venezuela\./);
+  assert.match(read('llms.txt'), /https:\/\/yoinit\.app\/llms-full\.txt/);
+  const full = read('llms-full.txt');
+  assert.match(full, /id6824063226/);
+  assert.match(full, /hello@yoinit\.app/);
+});

@@ -1,0 +1,35 @@
+# YoinIt
+
+> YoinIt es una app para organizar partidos de pádel en Venezuela. Creas el partido en tu cancha, invitas a tu grupo, abres cupos a otros jugadores y sigues las respuestas desde un solo lugar. Disponible para iPhone y Android.
+
+## Datos clave
+- Qué es: app móvil para organizar partidos de pádel entre jugadores.
+- Deporte: pádel. Otros deportes están previstos para más adelante, sin fecha anunciada.
+- Ámbito: Venezuela (Caracas). Idioma: español de Venezuela.
+- Plataformas: iPhone (App Store) y Android (Google Play).
+- Reserva y pago de la cancha: se acuerdan por fuera de la app en esta primera etapa.
+- Pago individual por jugador: función futura, no disponible todavía.
+- Servicio para clubes (agenda de canchas, reservas y seguimiento de cobros): próxima etapa, aún no disponible.
+- Contacto: hello@yoinit.app
+
+## Descarga
+- App Store (iPhone): https://apps.apple.com/ve/app/yoinit/id6824063226
+- Google Play (Android): https://play.google.com/store/apps/details?id=com.yoinit.app
+
+## Cómo funciona
+1. Elige hora: defines cuándo juegan y añades la cancha que ya tienes, dentro o fuera de un club.
+2. Abre el partido: público para conocer jugadores, o privado para jugar con tu grupo. Tú decides quién entra.
+3. Invita a tu gente: buscas a tus compañeros y les envías una invitación. Ellos aceptan desde la app. Una invitación no ocupa una plaza hasta que el jugador la acepta.
+4. Juegas: consultas quién se apuntó, hablas en el chat del partido y te ves en la cancha.
+
+## Preguntas frecuentes
+- ¿Qué puedo hacer desde el inicio? Crear partidos en una cancha que ya tengas, invitar a otros jugadores y apuntarte a partidos públicos con cupos disponibles. La reserva de la cancha se organiza por fuera de YoinIt en esta primera etapa.
+- ¿Necesito tener a los cuatro? No. Puedes abrir un partido a la comunidad para que otros jugadores se apunten, o hacerlo privado e invitar a tu grupo.
+- ¿Puedo cobrar la parte de cada jugador? El pago individual llegará después del lanzamiento. Por ahora, acuerden el pago directamente entre ustedes y con la cancha.
+- ¿Mi club ya puede usar el panel? El servicio para clubes es una próxima etapa.
+- ¿Habrá otros deportes? Empezamos con pádel. Tenis, fútbol y otros deportes están previstos para más adelante.
+
+## Páginas
+- Inicio: https://yoinit.app/
+- Términos y condiciones: https://yoinit.app/terminos/
+- Política de privacidad: https://yoinit.app/privacidad/
