@@ -254,6 +254,14 @@ const imageAlts = {
   '11': 'Panel de un club en un teléfono',
 };
 $$('[data-image]').forEach(slot => {
+  const existing = $('img', slot);
+  if (existing) {
+    // La imagen ya viene en el HTML (la ven los rastreadores sin JS); aqui solo se vigila su carga.
+    existing.addEventListener('error', () => existing.remove());
+    if (existing.complete && existing.naturalWidth) slot.classList.add('has-image');
+    else existing.addEventListener('load', () => slot.classList.add('has-image'));
+    return;
+  }
   const path = siteConfig.images[slot.dataset.image];
   if (!path) return;
   const image = new Image();image.alt = imageAlts[slot.dataset.image];
