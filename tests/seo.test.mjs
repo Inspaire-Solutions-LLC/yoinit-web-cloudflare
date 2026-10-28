@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 
 // SEO: home, terminos y privacidad indexables; utilidades fuera del indice. node --test tests/
 const read = (p) => readFileSync(new URL(`../${p}`, import.meta.url), 'utf8');
@@ -26,4 +26,17 @@ test('robots.txt cierra las utilidades y apunta al sitemap', () => {
     assert.match(robots, new RegExp(`Disallow: ${p}\\n`));
   }
   assert.match(robots, /Sitemap: https:\/\/yoinit\.app\/sitemap\.xml/);
+});
+
+test('home: un solo h1 y las imagenes de producto vienen en el HTML estatico', () => {
+  const html = read('index.html');
+  assert.equal((html.match(/<h1[\s>]/g) || []).length, 1);
+  assert.doesNotMatch(html, /Imagen en preparaci/);
+  const slots = [...html.matchAll(/<div[^>]*data-image="(\d\d)"[^>]*>(.*?)<\/div>/gs)].filter((m) => m[2].includes('<img'));
+  assert.equal(slots.length, 10);
+  for (const [, , inner] of slots) {
+    const [, src, alt] = inner.match(/<img src="\.\/([^"]+)" alt="([^"]+)"/);
+    assert.ok(existsSync(new URL(`../${src}`, import.meta.url)), src);
+    assert.ok(alt.length > 5);
+  }
 });

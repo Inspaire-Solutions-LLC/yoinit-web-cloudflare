@@ -76,8 +76,8 @@ button:disabled { cursor: not-allowed; opacity: .65; }
 .faq-item p { margin: 12px 0 4px; max-width: 60ch; color: var(--yo-secondary); font-size: 14px; line-height: 1.7; }
 .media-slot { position: relative; overflow: hidden; }
 .media-pending { color: var(--yo-muted); font-size: 10px; opacity: .8; }
-.media-slot.has-image { padding: 0; border-style: solid; }
-.media-slot.has-image > :not(img) { display: none; }
+.media-slot.has-image, .media-slot:has(> img) { padding: 0; border-style: solid; }
+.media-slot.has-image > :not(img), .media-slot:has(> img) > :not(img) { display: none; }
 .media-slot > img { width: 100%; height: 100%; position: absolute; inset: 0; object-fit: contain; }
 [data-image="01"] > img { object-position: center top; }
 [data-image="08"] > img, [data-image="11"] > img, [data-image="07"] > img { object-fit: cover; }
