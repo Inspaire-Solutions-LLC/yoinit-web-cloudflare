@@ -1,7 +1,7 @@
 // Complete these values when the public destinations are ready.
 // Empty values keep the corresponding action visibly unavailable.
 export const siteConfig = {
-  downloads: { ios: 'https://apps.apple.com/app/id6824063226', android: 'https://play.google.com/store/apps/details?id=com.yoinit.app' },
+  downloads: { ios: 'https://apps.apple.com/ve/app/yoinit/id6824063226', android: 'https://play.google.com/store/apps/details?id=com.yoinit.app' },
   contact: { email: 'hello@yoinit.app', whatsapp: '' }, // WhatsApp: international digits, no + or spaces.
   legal: { terms: '', privacy: '', cookies: '' },
   // Paths are relative to index.html. Use real app captures for UI slots.
