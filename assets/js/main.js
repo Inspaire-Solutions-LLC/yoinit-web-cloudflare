@@ -200,13 +200,13 @@ $$('[data-store]').forEach(badge => {
   badge.href = url;
   badge.removeAttribute('aria-disabled');
   badge.setAttribute('aria-label', badge.dataset.store === 'ios' ? 'Descargar en App Store' : 'Descargar en Google Play');
-  $('.store-pending', badge).remove();
+  $('.store-pending', badge)?.remove();
 });
 const activeStores = Object.values(siteConfig.downloads).filter(publicUrl).length;
-if (activeStores) {
-  $('.download-note').textContent = activeStores === 2 ? 'Disponible para iOS y Android.' : 'La otra versión estará disponible próximamente.';
+if (activeStores === 1) {
+  $('.download-note').textContent = 'La otra versión estará disponible próximamente.';
   const faq = $$('.faq-item').at(-1);
-  $('p', faq).textContent = 'Usa los botones de descarga de esta página para acceder a las versiones disponibles. Si un botón indica «Pronto», esa versión todavía no está disponible.';
+  $('p', faq).textContent = 'Usa los botones de descarga de esta página para acceder a la versión disponible. Si un botón indica «Pronto», esa versión todavía no está disponible.';
 }
 
 const contactForm = $('#contact-form');
