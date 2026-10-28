@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Disallow: /pelotas/
+Disallow: /captcha/
+Disallow: /auth/
+Disallow: /r/
+Disallow: /grupos/
+Disallow: /partidas/
+Disallow: /eliminar-cuenta/
+
+Sitemap: https://yoinit.app/sitemap.xml

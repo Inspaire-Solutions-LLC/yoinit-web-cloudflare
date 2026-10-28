@@ -1,0 +1,15 @@
+# YoinIt
+
+> YoinIt es una app para organizar partidos de pádel en Venezuela: el jugador crea el partido en su cancha, invita a su grupo, abre cupos a otros jugadores y sigue las respuestas desde un solo lugar. Disponible para iPhone y Android. La reserva y el pago de la cancha se acuerdan por fuera de la app en esta primera etapa.
+
+## Descarga
+- [App Store (iPhone)](https://apps.apple.com/app/id6824063226)
+- [Google Play (Android)](https://play.google.com/store/apps/details?id=com.yoinit.app)
+
+## Información
+- [Inicio: qué es YoinIt, cómo funciona y preguntas frecuentes](https://yoinit.app/)
+- [Términos y condiciones](https://yoinit.app/terminos/)
+- [Política de privacidad](https://yoinit.app/privacidad/)
+
+## Contacto
+- hello@yoinit.app
