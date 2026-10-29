@@ -24,7 +24,7 @@
 <style>
   .partida-shell { min-height: 100vh; display: grid; place-items: center; padding: 20px; }
   .partida-card { width: min(440px, 100%); text-align: center; padding: clamp(28px,5vw,44px) clamp(20px,4vw,36px); border: 1px solid var(--yo-line); border-radius: 24px; background: var(--yo-surface); }
-  .partida-mark { width: 44px; height: 44px; margin: 0 auto 20px; border-radius: 13px; background: var(--yo-acid); display: grid; place-items: center; font-family: Archivo, sans-serif; font-weight: 800; font-size: 22px; color: var(--yo-base); letter-spacing: -.04em; }
+  .partida-mark { display: block; height: 32px; width: auto; margin: 0 auto 24px; }
   .partida-title { margin: 0 0 12px; font-family: Archivo, sans-serif; font-weight: 800; font-size: clamp(24px,4vw,30px); line-height: 1.15; letter-spacing: -.03em; color: var(--yo-text); }
   .partida-text { margin: 0 0 24px; color: var(--yo-secondary); font-size: 15px; line-height: 1.6; }
   .partida-cta { width: 100%; }
@@ -46,7 +46,7 @@
 
 <main id="contenido" class="partida-shell">
   <div class="partida-card">
-    <div class="partida-mark" aria-hidden="true">y</div>
+    <img class="partida-mark" src="/assets/brand/yoinit-logo-kit-v1/svg/yoinit-horizontal-color-fondo-oscuro.svg" alt="YoinIt">
 
     <h1 class="partida-title">Te estamos llevando a tu partida</h1>
 
