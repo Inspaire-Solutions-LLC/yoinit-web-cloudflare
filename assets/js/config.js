@@ -35,3 +35,11 @@ export const turnstileConfig = {
     'yoinit-backend-dev.vercel.app': 'dev',
   },
 };
+
+// Pixel de Meta (dataset web de Events Manager). Solo se carga en produccion, tras aceptar
+// las cookies de medicion (assets/js/consent.js). enabled:false lo apaga sin tocar el HTML.
+export const metaPixelConfig = {
+  pixelId: '2119366832274596',
+  enabled: true,
+  hosts: ['yoinit.app', 'www.yoinit.app'],
+};

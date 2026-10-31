@@ -152,7 +152,8 @@ test('paginas de pelotas: noindex y la informativa sin checkout ni enlace a /pel
   const main = readFileSync(new URL('../pelotas/index.html', import.meta.url), 'utf8');
   const info = readFileSync(new URL('../pelotas/como-conseguir/index.html', import.meta.url), 'utf8');
   for (const html of [main, info]) assert.match(html, /<meta name="robots" content="noindex, nofollow">/);
-  assert.ok(!/<script/i.test(info));
+  // Solo se permite el modulo de consentimiento de cookies (Meta Pixel); ningun otro script.
+  assert.deepEqual(info.match(/<script[^>]*>/gi), ['<script type="module" src="../../assets/js/consent.js">']);
   assert.ok(!/<form/i.test(info));
   assert.ok(!/href=["'](\.\.\/)?(\.\.\/)?pelotas|href=["']\.\.\/["']/i.test(info.replace(/href="\.\.\/\.\.\/"/g, '')));
   assert.ok(!/comprar|checkout|pack/i.test(info.replace(/<title>.*<\/title>/, '')));
@@ -162,7 +163,7 @@ test('_headers: CSP de /pelotas/ abre solo Supabase de prod; la global no cambia
   const h = readFileSync(new URL('../_headers', import.meta.url), 'utf8');
   const [global, rest] = h.split('/pelotas/*');
   assert.ok(!global.includes('supabase.co'));
-  assert.match(rest.split('/assets/*')[0], /connect-src 'self' https:\/\/djpgmmibdcgklseiqxpj\.supabase\.co https:\/\/challenges\.cloudflare\.com;/);
+  assert.match(rest.split('/assets/*')[0], /connect-src 'self' https:\/\/djpgmmibdcgklseiqxpj\.supabase\.co https:\/\/challenges\.cloudflare\.com(?: https:\/\/www\.facebook\.com https:\/\/connect\.facebook\.net)?;/);
 });
 
 test('sin hex sueltos ni signos de admiracion en los archivos nuevos', () => {
