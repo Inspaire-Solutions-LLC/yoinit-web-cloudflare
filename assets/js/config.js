@@ -41,7 +41,7 @@ export const turnstileConfig = {
 export const metaPixelConfig = {
   pixelId: '2119366832274596',
   enabled: true,
-  hosts: ['yoinit.app', 'www.yoinit.app'],
+  hosts: ['yoinit.app', 'www.yoinit.app', 'yoinit-web-cloudflare-develop.joselinods-is.workers.dev'], // TEMP dev: quitar el host de workers.dev antes de subir a main
 };
 
 // Google Analytics 4 (flujo web "Yoinit Web" de la propiedad yoinit-e36ce, la misma de las apps).
@@ -49,5 +49,5 @@ export const metaPixelConfig = {
 export const ga4Config = {
   measurementId: 'G-L26QPPWL11',
   enabled: true,
-  hosts: ['yoinit.app', 'www.yoinit.app'],
+  hosts: ['yoinit.app', 'www.yoinit.app', 'yoinit-web-cloudflare-develop.joselinods-is.workers.dev'], // TEMP dev: quitar el host de workers.dev antes de subir a main
 };
