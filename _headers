@@ -63,6 +63,12 @@
 /assets/*
   Cache-Control: public, max-age=86400
 
+# Los modulos JS llevan configuracion (hosts de Turnstile, claves) y la pagina /captcha/ de la app los importa sin version:
+# con un dia de cache, un cambio de config tardaba hasta 24 h en llegar al WebView. Revalidar a los 5 minutos.
+/assets/js/*
+  ! Cache-Control
+  Cache-Control: public, max-age=300, must-revalidate
+
 /.well-known/assetlinks.json
   Content-Type: application/json
   Cache-Control: public, max-age=3600
