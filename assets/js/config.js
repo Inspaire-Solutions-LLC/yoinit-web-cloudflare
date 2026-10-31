@@ -30,7 +30,6 @@ export const turnstileConfig = {
     'panel.yoinit.app': 'prod',
     'localhost': 'dev',
     '127.0.0.1': 'dev',
-    'yoinit-web-cloudflare-develop.joselinods-is.workers.dev': 'dev',
     'yoinit-web-cloudflare-pages-dev.pages.dev': 'dev',
     'dev.yoinit.app': 'dev',
     'yoinit-backend-dev.vercel.app': 'dev',
@@ -42,7 +41,7 @@ export const turnstileConfig = {
 export const metaPixelConfig = {
   pixelId: '2119366832274596',
   enabled: true,
-  hosts: ['yoinit.app', 'www.yoinit.app', 'yoinit-web-cloudflare-pages-dev.pages.dev', 'dev.yoinit.app'], // TEMP dev: quitar los hosts de dev antes de subir a main
+  hosts: ['yoinit.app', 'www.yoinit.app'],
 };
 
 // Google Analytics 4 (flujo web "Yoinit Web" de la propiedad yoinit-e36ce, la misma de las apps).
@@ -50,5 +49,5 @@ export const metaPixelConfig = {
 export const ga4Config = {
   measurementId: 'G-L26QPPWL11',
   enabled: true,
-  hosts: ['yoinit.app', 'www.yoinit.app', 'yoinit-web-cloudflare-pages-dev.pages.dev', 'dev.yoinit.app'], // TEMP dev: quitar los hosts de dev antes de subir a main
+  hosts: ['yoinit.app', 'www.yoinit.app'],
 };

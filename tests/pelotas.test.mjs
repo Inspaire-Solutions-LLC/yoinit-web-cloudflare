@@ -189,7 +189,7 @@ test('captcha: cuerpo de /auth/v1/otp con y sin token', () => {
 test('captcha: site key por hostname; host desconocido sin captcha', () => {
   assert.equal(siteKeyForHost('yoinit.app'), '0x4AAAAAAFoOB9AoraeQQoPG');
   assert.equal(siteKeyForHost('panel.yoinit.app'), '0x4AAAAAAFoOB9AoraeQQoPG');
-  for (const h of ['localhost', 'yoinit-web-cloudflare-develop.joselinods-is.workers.dev', 'yoinit-web-cloudflare-pages-dev.pages.dev', 'yoinit-backend-dev.vercel.app']) {
+  for (const h of ['localhost', 'dev.yoinit.app', 'yoinit-web-cloudflare-pages-dev.pages.dev', 'yoinit-backend-dev.vercel.app']) {
     assert.equal(siteKeyForHost(h), '0x4AAAAAAFoN5z-Z2V-FxJfj', h);
   }
   assert.equal(siteKeyForHost('otro.com'), null);
