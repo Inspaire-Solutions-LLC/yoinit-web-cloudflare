@@ -12,9 +12,11 @@ export function loadGa4(measurementId, win = window, doc = document) {
   win.gtag = function () { win.dataLayer.push(arguments); };
   // Consent Mode v2: denegado por defecto ANTES de cargar nada; luego solo analytics_storage.
   win.gtag('consent', 'default', { ...CONSENT_DEFAULT });
+  // Solo se llega aqui con consentimiento ya dado: se concede ANTES de 'config' para que el
+  // page_view inicial salga ya con analytics_storage granted y cuente (si no, sale como ping sin cookies).
+  win.gtag('consent', 'update', { ...CONSENT_GRANTED });
   win.gtag('js', new Date());
   win.gtag('config', measurementId);
-  win.gtag('consent', 'update', { ...CONSENT_GRANTED });
   const s = doc.createElement('script');
   s.async = true;
   s.src = GTAG_SRC + encodeURIComponent(measurementId);

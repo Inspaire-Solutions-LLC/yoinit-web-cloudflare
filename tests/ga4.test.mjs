@@ -42,9 +42,10 @@ test('loadGa4: consentimiento denied por defecto antes de cargar, granted solo a
   const calls = win.dataLayer.map((a) => [...a]);
   assert.deepEqual(calls[0], ['consent', 'default', CONSENT_DEFAULT]);
   assert.deepEqual(Object.values(CONSENT_DEFAULT), ['denied', 'denied', 'denied', 'denied']);
-  assert.equal(calls[1][0], 'js');
-  assert.deepEqual(calls[2], ['config', ID]);
-  assert.deepEqual(calls[3], ['consent', 'update', { analytics_storage: 'granted', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' }]);
+  // El consentimiento se concede antes de 'config' para que el page_view inicial cuente.
+  assert.deepEqual(calls[1], ['consent', 'update', { analytics_storage: 'granted', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' }]);
+  assert.equal(calls[2][0], 'js');
+  assert.deepEqual(calls[3], ['config', ID]);
   assert.equal(appended.length, 1);
   assert.equal(appended[0].src, `https://www.googletagmanager.com/gtag/js?id=${ID}`);
   loadGa4(ID, win, doc);
