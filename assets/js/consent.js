@@ -1,21 +1,24 @@
 // Banner de consentimiento de cookies de medicion. Sin eleccion o con "Rechazar" no se
-// carga nada de Meta. La eleccion vive en localStorage (la web funciona sin el).
+// carga nada de Meta ni de Google. La eleccion vive en localStorage (la web funciona sin el).
 import { pixelIdForHost, readConsent, writeConsent, shouldLoadPixel, shouldShowBanner } from './meta-pixel-logic.js';
+import { ga4IdForHost } from './ga4-logic.js';
 
 const pixelId = pixelIdForHost(location.hostname);
+const ga4Id = ga4IdForHost(location.hostname);
+// Hay banner si al menos un modulo de medicion aplica a este host.
+const anyId = pixelId || ga4Id;
 
 function storage() { try { return window.localStorage; } catch { return null; } }
 
-if (!pixelId) {
+if (!anyId) {
   document.querySelectorAll('[data-cookie-prefs]').forEach((el) => { el.hidden = true; });
 } else {
   let consent = readConsent(storage());
   let banner = null;
 
   const apply = async () => {
-    if (!shouldLoadPixel(consent, pixelId)) return;
-    const mod = await import('./meta-pixel.js');
-    mod.loadMetaPixel(pixelId);
+    if (shouldLoadPixel(consent, pixelId)) (await import('./meta-pixel.js')).loadMetaPixel(pixelId);
+    if (shouldLoadPixel(consent, ga4Id)) (await import('./ga4.js')).loadGa4(ga4Id);
   };
 
   const closeBanner = () => { if (banner) { banner.remove(); banner = null; } };
@@ -26,7 +29,10 @@ if (!pixelId) {
     writeConsent(storage(), value);
     closeBanner();
     if (value === 'accepted') await apply();
-    else if (previous === 'accepted' && window.fbq) (await import('./meta-pixel.js')).revokeMetaPixel();
+    else if (previous === 'accepted') {
+      if (window.fbq) (await import('./meta-pixel.js')).revokeMetaPixel();
+      if (window.gtag) (await import('./ga4.js')).revokeGa4();
+    }
   };
 
   const openBanner = () => {
@@ -68,6 +74,6 @@ if (!pixelId) {
   }
   links.forEach((l) => l.addEventListener('click', (e) => { e.preventDefault(); openBanner(); }));
 
-  if (shouldShowBanner(consent, pixelId)) openBanner();
+  if (shouldShowBanner(consent, anyId)) openBanner();
   apply();
 }

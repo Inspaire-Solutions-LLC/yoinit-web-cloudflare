@@ -43,3 +43,11 @@ export const metaPixelConfig = {
   enabled: true,
   hosts: ['yoinit.app', 'www.yoinit.app'],
 };
+
+// Google Analytics 4 (flujo web "Yoinit Web" de la propiedad yoinit-e36ce, la misma de las apps).
+// Mismas reglas que el Pixel: solo produccion y solo tras aceptar las cookies de medicion.
+export const ga4Config = {
+  measurementId: 'G-L26QPPWL11',
+  enabled: true,
+  hosts: ['yoinit.app', 'www.yoinit.app'],
+};
