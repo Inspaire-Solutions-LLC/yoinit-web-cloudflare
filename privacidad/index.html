@@ -40,7 +40,7 @@
           <p class="privacy-breadcrumb"><a href="../">YoinIt</a><span aria-hidden="true">/</span> Legal</p>
           <h1 id="privacy-title">Política de privacidad</h1>
           <p class="privacy-hero__lead">Tus datos hacen posible tu cuenta, tus partidos y tus reservas. Aquí explicamos qué tratamos, por qué y qué puedes decidir.</p>
-          <p class="privacy-updated">Última actualización: <time datetime="2026-10-23">23 de octubre de 2026</time></p>
+          <p class="privacy-updated">Última actualización: <time datetime="2026-10-31">31 de octubre de 2026</time></p>
         </div>
 
         <aside class="privacy-promise" aria-label="Privacidad en corto">
@@ -81,6 +81,7 @@
           <a href="#visibilidad">Qué ven otras personas</a>
           <a href="#compartimos">Cuándo los compartimos</a>
           <a href="#permisos">Ubicación y notificaciones</a>
+          <a href="#analitica">Analítica y publicidad en la app</a>
           <a href="#web">Web y contacto</a>
           <a href="#conservacion">Conservación</a>
           <a href="#seguridad">Seguridad</a>
@@ -133,7 +134,7 @@
             </div>
             <div>
               <h3>Dispositivo y uso</h3>
-              <p>Identificador del dispositivo, token de notificaciones push, plataforma, versión de la app, preferencias locales y registros técnicos como fecha, IP, errores y acciones de seguridad. Para diagnosticar fallos usamos Sentry, configurado para no enviar datos personales por defecto y con el texto y las imágenes de las capturas de pantalla enmascarados.</p>
+              <p>Identificador del dispositivo, token de notificaciones push, plataforma, versión de la app, preferencias locales y registros técnicos como fecha, IP, errores y acciones de seguridad. Para diagnosticar fallos usamos Sentry, configurado para no enviar datos personales por defecto y con el texto y las imágenes de las capturas de pantalla enmascarados. Para medir el uso de la app y nuestros anuncios tratamos eventos de uso con un código interno de tu cuenta y, si lo permites, el identificador de publicidad del teléfono; el detalle está en la sección <a href="#analitica">Analítica y publicidad en la app</a>.</p>
             </div>
           </div>
         </section>
@@ -152,6 +153,7 @@
             <li>Responder consultas, prevenir fraude, investigar abusos y resolver fallos.</li>
             <li>Cumplir obligaciones legales, contables y de seguridad.</li>
             <li>Medir y mejorar el funcionamiento de YoinIt con información agregada o limitada al mínimo necesario.</li>
+            <li>Medir el uso de la app y la eficacia de nuestras campañas de anuncios con Firebase Analytics (Google) y Meta, y mostrarte anuncios de YoinIt más relevantes, solo con tu permiso (ver <a href="#analitica">Analítica y publicidad en la app</a>).</li>
           </ul>
           <p>Usamos los datos para prestar el servicio que solicitas, cumplir obligaciones legales y proteger intereses legítimos como la seguridad y la mejora del producto. Cuando una función depende de tu autorización, pedimos consentimiento.</p>
         </section>
@@ -174,7 +176,8 @@
             <li>Con jugadores, organizadores y clubes, según la actividad que elijas.</li>
             <li>Con proveedores de infraestructura, autenticación, búsqueda de lugares, email, notificaciones y pagos.</li>
             <li>Con los encargados del tratamiento que hoy usamos: Supabase (autenticación, base de datos, almacenamiento de fotos y funciones del servidor), Firebase Cloud Messaging de Google y el servicio de notificaciones de Apple (notificaciones push), Sentry (registro de errores y diagnóstico de la app), Resend (envío de correo), Google Places (búsqueda de lugares para partidas: recibe el texto que escribes y, si diste permiso, tu ubicación aproximada), Apple y Google (inicio de sesión, si lo eliges) y BNC (Banco Nacional de Crédito), como procesador de pagos por Pago Móvil.</li>
-            <li>No usamos tus datos para publicidad de terceros ni los compartimos con redes publicitarias; YoinIt no te rastrea entre otras apps o webs.</li>
+            <li>Con Google (Firebase Analytics y Google Analytics) y Meta Platforms (SDK de Meta, API de Conversiones y Píxel de Meta), como destinatarios de datos de medición y publicidad, con los límites y controles de la sección <a href="#analitica">Analítica y publicidad en la app</a>.</li>
+            <li>No vendemos datos de tu cuenta. Tu correo, teléfono, nombre, datos de pago y ubicación exacta no se envían a las herramientas de analítica ni de publicidad. La medición dentro de la app se explica en <a href="#analitica">Analítica y publicidad en la app</a> y la de la web pública, que solo se activa si la aceptas, en <a href="#web">Web y formulario de contacto</a>.</li>
             <li>Con asesores o autoridades cuando una norma lo exige o sea necesario para proteger derechos, seguridad o prevenir fraude.</li>
             <li>En una reorganización empresarial, con medidas para mantener la protección de la información.</li>
           </ul>
@@ -188,15 +191,44 @@
           <p>La app pide acceso a la cámara solo cuando tomas una foto para el chat de un grupo o escaneas el QR de una partida, y a tus fotos solo cuando eliges una imagen para enviar. Si activas notificaciones push, registramos un token y un identificador del dispositivo para enviarte avisos sobre invitaciones, reservas, pagos o partidos. Con tu consentimiento, también podemos enviarte notificaciones de novedades. Puedes retirar ambos permisos desde los ajustes del sistema o desde YoinIt cuando la opción esté disponible.</p>
         </section>
 
-        <section id="web" aria-labelledby="web-title">
+        <section id="analitica" aria-labelledby="analitica-title">
           <p class="privacy-section-number" aria-hidden="true">07</p>
+          <h2 id="analitica-title">Analítica y publicidad en la app</h2>
+          <p>Para saber qué funciona en la app y si nuestros anuncios llegan a quien deben, medimos cómo se usa YoinIt. Lo hacemos con Firebase Analytics (Google) y con el SDK de Meta (Meta Platforms).</p>
+          <h3>Qué medimos</h3>
+          <p>Pantallas que visitas, si te registras o inicias sesión, si creas una partida o te unes a una, si compartes un enlace, si confirmas un resultado y datos técnicos básicos del teléfono (modelo, sistema, idioma). A esos eventos les acompañan solo datos categóricos, como el deporte o el tipo de partida.</p>
+          <h3>Qué no medimos</h3>
+          <p>No enviamos a estas herramientas tu correo, teléfono, nombre, datos de pago ni tu ubicación exacta. Te identificamos con un código interno aleatorio de tu cuenta. A Meta le llega únicamente una versión cifrada (hash) de ese código.</p>
+          <h3>Anuncios</h3>
+          <p>Si lo permites, usamos el identificador de publicidad de tu teléfono para saber qué campañas nos traen jugadores y para mostrarte anuncios de YoinIt más relevantes. En iPhone te preguntamos con el aviso del sistema (App Tracking Transparency) después de tu primer momento en la app, y puedes decir que no. Si dices que no, no enviamos tu identificador de publicidad ni eventos a Meta, y la app funciona igual.</p>
+          <h3>Eventos desde nuestros servidores</h3>
+          <p>Algunos eventos, como confirmar un resultado o aceptar una invitación, los enviamos desde nuestros servidores a Google Analytics y a Meta. Siguen las mismas reglas: sin datos personales directos y solo si no has desactivado la analítica ni rechazado el seguimiento.</p>
+          <h3>Errores</h3>
+          <p>Usamos Sentry para recibir informes de fallos y rendimiento, con el fin de arreglar problemas. Estos informes no se usan para publicidad y no dependen del interruptor de analítica.</p>
+          <h3>Tú decides</h3>
+          <p>En Perfil, Ajustes, puedes apagar «Ayúdanos a mejorar YoinIt (analítica)» cuando quieras. En iPhone también puedes cambiar el permiso en Ajustes del sistema, Privacidad y seguridad, Seguimiento. En Android puedes restablecer o eliminar tu identificador de publicidad en los ajustes de Google. Si quieres que borremos tus datos, escríbenos o usa la opción «Eliminar cuenta y datos».</p>
+          <h3>Con quién compartimos</h3>
+          <p>Google (Firebase Analytics y Google Analytics), Meta Platforms y Sentry, como proveedores que tratan estos datos para nosotros o para sus propios fines publicitarios según sus políticas: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">política de privacidad de Google</a> y <a href="https://privacycenter.meta.com/policy/" target="_blank" rel="noopener noreferrer">política de privacidad de Meta</a>. Ese tratamiento puede implicar la transferencia internacional de datos a países distintos de Venezuela.</p>
+          <p>[Por completar con asesoría legal: responsable del tratamiento de estos datos, plazo de conservación de los datos de analítica (hoy: solo el tiempo necesario para medir nuestras campañas), mecanismo de transferencia internacional y base legal aplicable.]</p>
+        </section>
+
+        <section id="web" aria-labelledby="web-title">
+          <p class="privacy-section-number" aria-hidden="true">08</p>
           <h2 id="web-title">Web y formulario de contacto</h2>
-          <p>La web pública no usa cookies publicitarias ni analítica de seguimiento en esta versión. El alojamiento y recursos externos pueden generar registros técnicos básicos para entregar la página y mantenerla segura.</p>
+          <h3>Cookies y medición en la web</h3>
+          <p>La web pública (yoinit.app) usa cookies y tecnologías similares de medición de dos proveedores, solo si pulsas «Aceptar» en el aviso de cookies: Meta Platforms (Píxel de Meta) y Google (Google Analytics). Antes de que aceptes, no se carga ninguna de las dos. Si pulsas «Rechazar» o no respondes, la web funciona igual.</p>
+          <p>Con tu aceptación, estas herramientas miden las páginas que visitas, los clics en los botones de descarga de las tiendas de apps, el tipo de dispositivo y de navegador, y tu país aproximado. Nosotros usamos esa información para entender cuánta gente llega a la web y si nuestros anuncios y enlaces funcionan.</p>
+          <p>Puedes cambiar o retirar tu decisión cuando quieras con el botón «Preferencias de cookies» que aparece en el pie de cada página. Retirar el consentimiento no afecta a la medición hecha antes de retirarlo.</p>
+          <p>Meta y Google tratan esos datos según sus propias políticas: <a href="https://privacycenter.meta.com/policy/" target="_blank" rel="noopener noreferrer">política de privacidad de Meta</a> y <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">política de privacidad de Google</a>. Ese tratamiento puede implicar la transferencia internacional de datos a países distintos de Venezuela.</p>
+          <p>[Por completar con asesoría legal: responsable del tratamiento de estos datos, plazo de conservación de los datos de medición, mecanismo de transferencia internacional y base legal aplicable.]</p>
+          <p>Esta sección describe solo la web. La medición dentro de la app móvil tiene su propia explicación y su propio control en Ajustes de la app: ver <a href="#analitica">Analítica y publicidad en la app</a>.</p>
+          <p>Además, el alojamiento y los recursos externos pueden generar registros técnicos básicos para entregar la página y mantenerla segura.</p>
+          <h3>Formulario de contacto y soporte</h3>
           <p>Para soporte también puedes escribir a <a href="mailto:hello@yoinit.app">hello@yoinit.app</a>; conservaremos tu mensaje y los datos que incluyas para atenderte. Si usas el formulario de contacto, tratamos tu nombre, email, teléfono opcional y mensaje. El envío se procesa mediante un proveedor de formularios y se usa para responderte y dar seguimiento a tu consulta.</p>
         </section>
 
         <section id="conservacion" aria-labelledby="conservacion-title">
-          <p class="privacy-section-number" aria-hidden="true">08</p>
+          <p class="privacy-section-number" aria-hidden="true">09</p>
           <h2 id="conservacion-title">Cuánto tiempo conservamos los datos</h2>
           <p>Conservamos la información mientras tu cuenta esté activa y durante el tiempo necesario para prestar el servicio. Los reportes de moderación y la copia del mensaje reportado se conservan el tiempo necesario para resolver el caso y prevenir reincidencias, incluso si el mensaje original se borra. Al cerrar la cuenta, eliminamos o desvinculamos los datos que ya no necesitamos, salvo cuando debamos mantener registros por obligaciones legales, contables, prevención de fraude, resolución de disputas o defensa de derechos.</p>
           <p>Los registros de pago, incluidos los de compras de packs de pelotas, se conservan durante el tiempo necesario para conciliar pagos, atender reclamos y cumplir obligaciones contables y legales, aunque cierres tu cuenta.</p>
@@ -204,14 +236,14 @@
         </section>
 
         <section id="seguridad" aria-labelledby="seguridad-title">
-          <p class="privacy-section-number" aria-hidden="true">09</p>
+          <p class="privacy-section-number" aria-hidden="true">10</p>
           <h2 id="seguridad-title">Cómo protegemos los datos</h2>
           <p>Aplicamos controles de acceso, separación de permisos, conexiones cifradas, registros de actividad y restricciones por cuenta o rol. Revisamos estas medidas a medida que cambia el producto.</p>
           <p>Ningún sistema es infalible. Protege tu contraseña, no compartas códigos de acceso y avísanos si detectas actividad que no reconoces.</p>
         </section>
 
         <section id="derechos" aria-labelledby="derechos-title">
-          <p class="privacy-section-number" aria-hidden="true">10</p>
+          <p class="privacy-section-number" aria-hidden="true">11</p>
           <h2 id="derechos-title">Tus derechos</h2>
           <p>Puedes pedir confirmación sobre si tratamos tus datos, acceder a ellos, conocer su uso, corregirlos, actualizarlos o solicitar su eliminación cuando corresponda. También puedes retirar permisos o consentimiento sin afectar el tratamiento anterior.</p>
           <p>El <a href="https://asambleanacional-media.s3.amazonaws.com/documentos/botones/constitucion-nacional-20191205135853.PDF" target="_blank" rel="noopener noreferrer">artículo 28 de la Constitución de Venezuela</a> reconoce derechos de acceso, conocimiento de finalidad, actualización, rectificación y destrucción en los casos previstos.</p>
@@ -219,13 +251,13 @@
         </section>
 
         <section id="menores" aria-labelledby="menores-title">
-          <p class="privacy-section-number" aria-hidden="true">11</p>
+          <p class="privacy-section-number" aria-hidden="true">12</p>
           <h2 id="menores-title">Menores de edad</h2>
           <p>YoinIt es para personas mayores de 18 años, como indican los <a href="../terminos/">términos y condiciones</a>. No está diseñado para que menores usen servicios que requieran capacidad legal sin la autorización correspondiente. Si eres representante de un menor y crees que tratamos sus datos sin autorización válida, contáctanos para revisarlos y tomar las medidas necesarias.</p>
         </section>
 
         <section id="cambios" aria-labelledby="cambios-title">
-          <p class="privacy-section-number" aria-hidden="true">12</p>
+          <p class="privacy-section-number" aria-hidden="true">13</p>
           <h2 id="cambios-title">Cambios y contacto</h2>
           <p>Para consultas sobre privacidad escribe a <a href="mailto:hello@yoinit.app">hello@yoinit.app</a>. Las reglas de uso del servicio están en los <a href="../terminos/">términos y condiciones</a>.</p>
           <p>Podemos actualizar esta política cuando cambien YoinIt, nuestros proveedores o las normas aplicables. Publicaremos la nueva fecha y, si el cambio es importante, lo comunicaremos por un medio adecuado.</p>
@@ -255,6 +287,7 @@
         <a href="../terminos/">Términos</a>
         <a href="./" aria-current="page">Privacidad</a>
         <a href="../eliminar-cuenta/">Eliminar cuenta</a>
+        <button type="button" class="cookie-prefs" data-cookie-prefs>Preferencias de cookies</button>
       </nav>
     </div>
     <div class="privacy-footer__bottom">
@@ -262,5 +295,6 @@
       <p>Nos vemos en la cancha.</p>
     </div>
   </footer>
+  <script type="module" src="../assets/js/consent.js"></script>
 </body>
 </html>

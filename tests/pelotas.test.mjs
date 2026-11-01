@@ -152,7 +152,8 @@ test('paginas de pelotas: noindex y la informativa sin checkout ni enlace a /pel
   const main = readFileSync(new URL('../pelotas/index.html', import.meta.url), 'utf8');
   const info = readFileSync(new URL('../pelotas/como-conseguir/index.html', import.meta.url), 'utf8');
   for (const html of [main, info]) assert.match(html, /<meta name="robots" content="noindex, nofollow">/);
-  assert.ok(!/<script/i.test(info));
+  // Solo se permite el modulo de consentimiento de cookies (Meta Pixel); ningun otro script.
+  assert.deepEqual(info.match(/<script[^>]*>/gi), ['<script type="module" src="../../assets/js/consent.js">']);
   assert.ok(!/<form/i.test(info));
   assert.ok(!/href=["'](\.\.\/)?(\.\.\/)?pelotas|href=["']\.\.\/["']/i.test(info.replace(/href="\.\.\/\.\.\/"/g, '')));
   assert.ok(!/comprar|checkout|pack/i.test(info.replace(/<title>.*<\/title>/, '')));
@@ -162,7 +163,7 @@ test('_headers: CSP de /pelotas/ abre solo Supabase de prod; la global no cambia
   const h = readFileSync(new URL('../_headers', import.meta.url), 'utf8');
   const [global, rest] = h.split('/pelotas/*');
   assert.ok(!global.includes('supabase.co'));
-  assert.match(rest.split('/assets/*')[0], /connect-src 'self' https:\/\/djpgmmibdcgklseiqxpj\.supabase\.co;/);
+  assert.match(rest.split('/assets/*')[0], /connect-src 'self' https:\/\/djpgmmibdcgklseiqxpj\.supabase\.co https:\/\/challenges\.cloudflare\.com(?: https:\/\/www\.facebook\.com https:\/\/connect\.facebook\.net(?: https:\/\/www\.google-analytics\.com https:\/\/\*\.google-analytics\.com https:\/\/\*\.analytics\.google\.com https:\/\/www\.googletagmanager\.com)?)?;/);
 });
 
 test('sin hex sueltos ni signos de admiracion en los archivos nuevos', () => {
@@ -174,4 +175,52 @@ test('sin hex sueltos ni signos de admiracion en los archivos nuevos', () => {
     assert.ok(!/!(?!--)/.test(text.replace(/<!--[\s\S]*?-->/g, '')), f);
   }
   assert.ok(existsSync(new URL('../assets/js/pelotas.js', import.meta.url)));
+});
+
+// ---------- APP-SEC-002: Turnstile ----------
+import { buildOtpBody, isCaptchaError, parseCaptchaParams, siteKeyForHost, captchaMessage } from '../assets/js/captcha-logic.js';
+
+test('captcha: cuerpo de /auth/v1/otp con y sin token', () => {
+  assert.deepEqual(buildOtpBody('a@b.com', 'tok123'), { email: 'a@b.com', create_user: false, gotrue_meta_security: { captcha_token: 'tok123' } });
+  assert.deepEqual(buildOtpBody('a@b.com', null), { email: 'a@b.com', create_user: false });
+  assert.ok(!('gotrue_meta_security' in buildOtpBody('a@b.com', '')));
+});
+
+test('captcha: site key por hostname; host desconocido sin captcha', () => {
+  assert.equal(siteKeyForHost('yoinit.app'), '0x4AAAAAAFoOB9AoraeQQoPG');
+  assert.equal(siteKeyForHost('panel.yoinit.app'), '0x4AAAAAAFoOB9AoraeQQoPG');
+  for (const h of ['localhost', 'dev.yoinit.app', 'yoinit-web-cloudflare-pages-dev.pages.dev', 'yoinit-backend-dev.vercel.app']) {
+    assert.equal(siteKeyForHost(h), '0x4AAAAAAFoN5z-Z2V-FxJfj', h);
+  }
+  assert.equal(siteKeyForHost('otro.com'), null);
+  assert.equal(siteKeyForHost(''), null);
+});
+
+test('captcha: errores y parametros de /captcha/', () => {
+  assert.ok(isCaptchaError({ code: 'captcha_failed' }));
+  assert.ok(!isCaptchaError({ code: 'over_email_send_rate_limit' }));
+  assert.deepEqual(parseCaptchaParams('?theme=dark&action=login'), { theme: 'dark', action: 'login' });
+  assert.deepEqual(parseCaptchaParams('?theme=raro'), { theme: 'auto', action: undefined });
+  assert.equal(parseCaptchaParams('?action=<x>').action, 'x');
+});
+
+test('captcha: contrato de mensajes hacia la app', () => {
+  assert.deepEqual(JSON.parse(captchaMessage.token('t')), { type: 'token', token: 't' });
+  assert.deepEqual(JSON.parse(captchaMessage.expired()), { type: 'expired' });
+  assert.deepEqual(JSON.parse(captchaMessage.error('110200')), { type: 'error', code: '110200' });
+  assert.deepEqual(JSON.parse(captchaMessage.ready()), { type: 'ready' });
+});
+
+test('captcha: CSP abre Turnstile solo en /pelotas/* y /captcha/*, la global no; pagina noindex', () => {
+  const h = readFileSync(new URL('../_headers', import.meta.url), 'utf8');
+  const blocks = h.split(/\n\n/);
+  for (const b of blocks) {
+    const path = b.trim().split('\n')[0];
+    const has = b.includes('challenges.cloudflare.com');
+    assert.equal(has, path === '/pelotas/*' || path === '/captcha/*', path);
+    if (has) assert.match(b, /frame-ancestors 'none'/);
+  }
+  const page = readFileSync(new URL('../captcha/index.html', import.meta.url), 'utf8');
+  assert.match(page, /<meta name="robots" content="noindex">/);
+  assert.ok(!/!(?!--)/.test(page.replace(/<!DOCTYPE html>/i, '')));
 });

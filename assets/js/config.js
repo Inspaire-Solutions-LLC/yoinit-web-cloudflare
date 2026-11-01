@@ -18,3 +18,36 @@ export const pelotasConfig = {
   anonKey: '',
   enabled: false,
 };
+
+// APP-SEC-002: site keys publicas de Cloudflare Turnstile, por hostname. Host que no
+// esta en la tabla = sin captcha (la pagina sigue funcionando sin widget).
+export const turnstileConfig = {
+  prod: '0x4AAAAAAFoOB9AoraeQQoPG',
+  dev: '0x4AAAAAAFoN5z-Z2V-FxJfj',
+  hosts: {
+    'yoinit.app': 'prod',
+    'www.yoinit.app': 'prod',
+    'panel.yoinit.app': 'prod',
+    'localhost': 'dev',
+    '127.0.0.1': 'dev',
+    'yoinit-web-cloudflare-pages-dev.pages.dev': 'dev',
+    'dev.yoinit.app': 'dev',
+    'yoinit-backend-dev.vercel.app': 'dev',
+  },
+};
+
+// Pixel de Meta (dataset web de Events Manager). Solo se carga en produccion, tras aceptar
+// las cookies de medicion (assets/js/consent.js). enabled:false lo apaga sin tocar el HTML.
+export const metaPixelConfig = {
+  pixelId: '2119366832274596',
+  enabled: true,
+  hosts: ['yoinit.app', 'www.yoinit.app'],
+};
+
+// Google Analytics 4 (flujo web "Yoinit Web" de la propiedad yoinit-e36ce, la misma de las apps).
+// Mismas reglas que el Pixel: solo produccion y solo tras aceptar las cookies de medicion.
+export const ga4Config = {
+  measurementId: 'G-L26QPPWL11',
+  enabled: true,
+  hosts: ['yoinit.app', 'www.yoinit.app'],
+};
